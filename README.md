@@ -2,7 +2,10 @@
 Project for 42 Quebec
 
 textures : blocs minecraft
+mettre texture en .xpm
+
 mettre le garbage collector dans la libft
+
 
 
  1er : raycasting 
