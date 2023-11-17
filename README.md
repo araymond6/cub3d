@@ -1,5 +1,6 @@
 # cub3d
 Project for 42 Quebec
+sujet : https://cdn.intra.42.fr/pdf/pdf/105109/fr.subject.pdf
 
 textures : blocs minecraft
 mettre texture en .xpm
