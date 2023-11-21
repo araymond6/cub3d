@@ -8,6 +8,7 @@
 # include <math.h>
 # include <unistd.h>
 # include <string.h>
+#include <fcntl.h>
 
 typedef struct s_texture
 {
@@ -17,6 +18,11 @@ typedef struct s_texture
 	mlx_texture_t S;
 }	t_texture;
 
+typedef struct s_map
+{
+	char **map;
+} t_map;
+
 typedef struct s_cub
 {
 	mlx_t	mlx;
@@ -24,5 +30,6 @@ typedef struct s_cub
 
 //functions
 int	get_rgba(int r, int g, int b, int a);
+void check_map_args(t_map *map);
 
 #endif

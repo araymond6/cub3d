@@ -14,4 +14,8 @@ mettre le garbage collector dans la libft
 
  2 : gestion map(parsing) et gestion des textures/couleurs
 
- 3 : gestion des erreurs 
+ 3 : gestion des mouvements du joueur
+
+ 4 : gestion des erreurs 
+
+ en cours de gestion du parsing...
