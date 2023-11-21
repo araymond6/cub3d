@@ -21,6 +21,13 @@ typedef struct s_texture
 typedef struct s_map
 {
 	char **map;
+	char *map_path;
+
+	char *NO_path;
+	char *SO_path;
+	char *WE_path;
+	char *EA_path;
+	
 } t_map;
 
 typedef struct s_cub
