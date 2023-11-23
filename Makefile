@@ -13,14 +13,20 @@ MLX_DIR = MLX42/
 BUILD_DIR = $(MLX_DIR)build
 OBJ_DIR = obj/
 
-SRCS = main.c
+SRCS =	main.c \
+		raycast.c \
+		utils.c
 VPATH = $(SRC_DIR) $(INC_DIR)
 
 OBJS = $(SRCS:%.c=%.o)
 OBJ_PRE = $(addprefix $(OBJ_DIR), $(OBJS))
 
-INC = cub.h
+INC = cub3D.h
 INC_PRE = $(addprefix $(INC_DIR), $(INC))
+
+BREW = /Users/$(USER)/.brew/bin/brew
+CMAKE = /Users/$(USER)/.brew/bin/cmake
+GLFW = /Users/$(USER)/.brew/Cellar/glfw
 
 #COLORS
 YELLOW = \033[93m
@@ -40,20 +46,27 @@ $(NAME): $(OBJ_PRE)
 
 re: fclean all
 
+# @if [ ! -f ./include/readline/libreadline.a ]; then 
 mlx:
-	(cd $(MLX_DIR) && cmake -B build/)
-	(make -C $(BUILD_DIR))
+	@echo "$(YELLOW)Checking MLX42...$(RESET)"
+	@if [ ! -f $(MLX42) ]; then \
+		(cd $(MLX_DIR) && cmake -B build/); \
+		(make -C $(BUILD_DIR)); \
+		fi
+	@echo "$(YELLOW)MLX42 built!$(RESET)"
 
 dep:
-	# @if [ ! -f /Users/$(USER)/.brew/bin/brew]; then \
-	# 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
-	# 	fi
-	# @if [ ! -f /Users/$(USER)/.brew/bin/cmake]; then \
-	# 	brew install cmake \
-	# 	fi
-	# @if [ ! -f /Users/$(USER)/.brew/Cellar/glfw]; then \
-	# 	brew install glfw \
-	# 	fi
+	@echo "$(YELLOW)Checking dependencies...$(RESET)"
+	@if [ ! -f $(BREW)]; then \
+		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
+		fi
+	@if [ ! -f $(CMAKE)]; then \
+		brew install cmake \
+		fi
+	@if [ ! -f $(GLFW)]; then \
+		brew install glfw \
+		fi
+	@echo "$(YELLOW)Dependencies installed!$(RESET)"
 
 lib: 
 	@make -C $(LIB_DIR)
