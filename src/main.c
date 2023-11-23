@@ -1,4 +1,5 @@
 #include "../include/cub3D.h"
+#include "../include/cub.h"
 #define WIDTH 1280
 #define HEIGHT 720
 
@@ -129,6 +130,10 @@ int main(int ac, char **av)
 {
 	t_cub cub;
 	
+	t_map map;
+    map.map_path = "exemple.cub";
+    check_map_args(&map);
+
 	init_cub(&cub);
 	cub.mlx = mlx_init(WIDTH, HEIGHT, "Minecraft", false);
 	cub.img = mlx_new_image(cub.mlx, WIDTH, HEIGHT);
