@@ -46,7 +46,7 @@ void verLine(t_cub *cub, int x, int drawStart, int drawEnd, int color)
 	}
 }
 
-void	draw_floor(t_cub *cub)
+void	drawFloor(t_cub *cub)
 {
 	double posX = 22, posY = 12;  //x and y start position
 	double dirX = -1, dirY = 0; //initial direction vector

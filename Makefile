@@ -28,6 +28,15 @@ BREW = /Users/$(USER)/.brew/bin/brew
 CMAKE = /Users/$(USER)/.brew/bin/cmake
 GLFW = /Users/$(USER)/.brew/Cellar/glfw
 
+OS = $(shell uname)
+ifeq ($(OS), Linux)
+	MLX_FLAGS = -Iinclude -ldl -lglfw -pthread -lm
+	NOTMAC = 1
+else ifeq ($(OS), Darwin)
+	MLX_FLAGS = -framework Cocoa -framework OpenGL -framework IOKit -I /include -lglfw -L "/Users/$(USER)/.brew/opt/glfw/lib/"
+	NOTMAC = 0
+endif
+
 #COLORS
 YELLOW = \033[93m
 BLUE = \033[94m
@@ -57,16 +66,18 @@ mlx:
 
 dep:
 	@echo "$(YELLOW)Checking dependencies...$(RESET)"
-	@if [ ! -f $(BREW)]; then \
-		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
-		fi
-	@if [ ! -f $(CMAKE)]; then \
-		brew install cmake \
-		fi
-	@if [ ! -f $(GLFW)]; then \
-		brew install glfw \
-		fi
-	@echo "$(YELLOW)Dependencies installed!$(RESET)"
+	ifeq ($(NOTMAC), 0)
+		@if [ ! -f $(BREW)]; then \
+			/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
+			fi
+		@if [ ! -f $(CMAKE)]; then \
+			brew install cmake \
+			fi
+		@if [ ! -f $(GLFW)]; then \
+			brew install glfw \
+			fi
+		@echo "$(YELLOW)Dependencies installed!$(RESET)"
+	endif
 
 lib: 
 	@make -C $(LIB_DIR)

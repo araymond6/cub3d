@@ -39,5 +39,6 @@ typedef struct s_cub
 //functions
 int		get_rgba(int r, int g, int b, int a);
 void	keys_hook(mlx_key_data_t keydata, void *param);
+void	drawFloor(t_cub *cub);
 
 #endif
