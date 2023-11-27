@@ -13,9 +13,7 @@ MLX_DIR = MLX42/
 BUILD_DIR = $(MLX_DIR)build
 OBJ_DIR = obj/
 
-SRCS =	main.c \
-		raycast.c \
-		utils.c
+SRCS =	test.c
 VPATH = $(SRC_DIR) $(INC_DIR)
 
 OBJS = $(SRCS:%.c=%.o)

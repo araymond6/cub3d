@@ -10,16 +10,34 @@
 # include <string.h>
 # include <stdbool.h>
 
+#define screenWidth 640
+#define screenHeight 480
+#define mapWidth 6
+#define mapHeight 6
 
 typedef struct s_var
 {
-	int	px;
-	int	py;
-	double	moveSpeed;
-	double	rotSpeed;
-	double	dirX;
-	double	dirY;
-
+	double		playerPos[2];
+	double		playerDir[2];
+	double		camPlane[2];
+	double		time[2];
+	double 		camera[2];
+	double		rayDir[2];
+	double		map[2];
+	double		sideDist[2];
+	double		deltaDist[2];
+	double		perpWallDist;
+	int			step[2];
+	int			hit;
+	int			side;
+	int			lineHeight;
+	int 		drawPoints[2];
+	int			color;
+	double		frameTime;
+	double		moveSpeed;
+	double		rotSpeed;
+	double		oldDir[2];
+	double		oldPlane[2];
 }	t_var;
 
 typedef struct s_math
