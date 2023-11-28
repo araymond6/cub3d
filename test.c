@@ -205,7 +205,6 @@ int main()
 	ft_bzero(&cub, sizeof(t_cub));
 	cub.mlx = mlx_init(screenWidth, screenHeight, "Raycaster", 1);
 	cub.img = mlx_new_image(cub.mlx, screenWidth, screenHeight);
-	printf("hi\n");
 	cub.v.playerPos[0] = 4;
 	cub.v.playerPos[1] = 4;
 	cub.v.playerDir[0] = -1;
