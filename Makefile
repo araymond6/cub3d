@@ -4,7 +4,7 @@ MLX42 = MLX42/build/libmlx42.a
 
 CC = gcc
 CFLAGS = -g
-MLX_FLAGS = -framework Cocoa -framework OpenGL -framework IOKit -I /include -lglfw -L "/Users/$(USER)/.brew/opt/glfw/lib/"
+MLX_FLAGS = -framework Cocoa -framework OpenGL -framework IOKit -I /include -lglfw -L "/opt/homebrew/Cellar/glfw/3.3.8/lib/"
 
 SRC_DIR = src/
 INC_DIR = include/
@@ -13,7 +13,7 @@ MLX_DIR = MLX42/
 BUILD_DIR = $(MLX_DIR)build
 OBJ_DIR = obj/
 
-SRCS = main.c parsing.c
+SRCS = main.c parsing.c utils_parsing.c get_rgb_value.c get_map.c
 VPATH = $(SRC_DIR) $(INC_DIR)
 
 OBJS = $(SRCS:%.c=%.o)
@@ -35,7 +35,7 @@ $(OBJ_DIR)%.o: %.c $(INC_PRE)
 
 $(NAME): $(OBJ_PRE)
 	@echo "$(YELLOW)Compiling files...$(RESET)"
-	$(CC) $(CFLAGS) -o $@ $^ $(LIBFT) $(MLX42) $(MLX_FLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBFT) $(MLX42) $(MLX_FLAGS) libft/42_garbage_collector/lib/libftgc.a
 	@echo "$(YELLOW)Files compiled!$(RESET)"
 
 re: fclean all
