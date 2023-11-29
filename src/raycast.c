@@ -5,12 +5,12 @@ void	findHit(t_cub *cub, mlx_texture_t *texture)
 	cub->v.hit = 0;
 	if (cub->v.side == 0 || cub->v.side == 1)
 	{
-		cub->v.hit = cub->v.playerPos[1] + cub->v.perpWallDist *
+		cub->v.hit = cub->v.pos[1] + cub->v.perpWallDist *
 		cub->v.rayDir[1];
 	}
 	else
 	{
-		cub->v.hit = cub->v.playerPos[0] + cub->v.perpWallDist *
+		cub->v.hit = cub->v.pos[0] + cub->v.perpWallDist *
 		cub->v.rayDir[0];
 	}
 	cub->v.hit -= cub->v.hit;
@@ -94,8 +94,8 @@ void	mainLoop(void *param)
 		setDrawRange(cub);
 		vertLine(cub, x);
 		selectTexture(cub, x);
-		key_binding(cub);
+		keysHook(cub);
 	}
-	//track_window(cub); //what is this
+	//track_window(cub); //what is this(?)
 	usleep(1500);
 }

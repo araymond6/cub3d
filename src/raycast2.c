@@ -7,8 +7,8 @@ void	setData(t_cub *cub, int x)
 		+ cub->v.camPlane[0] * cub->v.camera[0];
 	cub->v.rayDir[1] = cub->v.playerDir[1]
 		+ cub->v.camPlane[1] * cub->v.camera[0];
-	cub->v.map[0] = (int)cub->v.playerPos[0];
-	cub->v.map[1] = (int)cub->v.playerPos[1];
+	cub->v.map[0] = (int)cub->v.pos[0];
+	cub->v.map[1] = (int)cub->v.pos[1];
 	cub->v.deltaDist[0] = fabs(1 / cub->v.rayDir[0]);
 	cub->v.deltaDist[1] = fabs(1 / cub->v.rayDir[1]);
 }
@@ -18,25 +18,25 @@ void	setSideDist(t_cub *cub)
 	if (cub->v.rayDir[0] < 0)
 	{
 		cub->v.step[0] = -1;
-		cub->v.sideDist[0] = (cub->v.playerPos[0] - cub->v.map[0])
+		cub->v.sideDist[0] = (cub->v.pos[0] - cub->v.map[0])
 			* cub->v.deltaDist[0];
 	}
 	else
 	{
 		cub->v.step[0] = 1;
-		cub->v.sideDist[0] = (cub->v.map[0] + 1.0 - cub->v.playerPos[0])
+		cub->v.sideDist[0] = (cub->v.map[0] + 1.0 - cub->v.pos[0])
 			* cub->v.deltaDist[0];
 	}
 	if (cub->v.rayDir[1] < 0)
 	{
 		cub->v.step[1] = -1;
-		cub->v.sideDist[1] = (cub->v.playerPos[1] - cub->v.map[1])
+		cub->v.sideDist[1] = (cub->v.pos[1] - cub->v.map[1])
 			* cub->v.deltaDist[1];
 	}
 	else
 	{
 		cub->v.step[1] = 1;
-		cub->v.sideDist[1] = (cub->v.map[1] + 1.0 - cub->v.playerPos[1])
+		cub->v.sideDist[1] = (cub->v.map[1] + 1.0 - cub->v.pos[1])
 			* cub->v.deltaDist[1];
 	}
 }

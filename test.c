@@ -2,15 +2,34 @@
 #include "include/cub3D.h"
 
 void	closeHook(void *param);
-void	keyHook(void *param);
+void	keyHook(mlx_key_data_t keydata, void *param);
 
-char worldMap[mapWidth][mapHeight] = {
-	{1, 1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 0 ,1},
-	{1, 3, 0, 2, 0 ,1},
-	{1, 0, 0, 0, 0 ,1},
-	{1, 4, 0, 0, 0 ,1},
-	{1, 1, 1, 1, 1, 1}
+int worldMap[mapWidth][mapHeight]=
+{
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
+  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
 int	get_rgba(int r, int g, int b, int a)
@@ -20,23 +39,23 @@ int	get_rgba(int r, int g, int b, int a)
 
 void	verLine(t_cub *cub, int x)
 {
-	int	i;
+	int	y;
 
-	i = cub->v.drawPoints[0];
-	while (i < cub->v.drawPoints[1])
-	{
-		mlx_put_pixel(cub->img, x, i++, cub->v.color);
-	}
+	y = 0;
+	while (y < cub->v.drawPoints[0])
+		mlx_put_pixel(cub->img, x, y++, cub->v.color);
+	while (y < screenHeight)
+		mlx_put_pixel(cub->img, x, y++, cub->v.color);
 }
 
-void	keyHook(void *param)
+void	keyHook(mlx_key_data_t keydata, void *param)
 {
 	t_cub	*cub;
 	if (param)
 		cub = param;
 	if (mlx_is_key_down(cub->mlx, MLX_KEY_ESCAPE))
 		closeHook(cub);
-	if (mlx_is_key_down(cub->mlx, MLX_KEY_LEFT))
+	if (mlx_is_key_down(cub->mlx, MLX_KEY_LEFT) || mlx_is_key_down(cub->mlx, MLX_KEY_A))
 	{
 		//both camera direction and camera plane must be rotated
 		cub->v.oldDir[0] = cub->v.playerDir[0];
@@ -46,7 +65,7 @@ void	keyHook(void *param)
 		cub->v.camPlane[0] = cub->v.camPlane[0] * cos(cub->v.rotSpeed) - cub->v.camPlane[1] * sin(cub->v.rotSpeed);
 		cub->v.camPlane[1] = cub->v.oldPlane[0] * sin(cub->v.rotSpeed) + cub->v.camPlane[1] * cos(cub->v.rotSpeed);
 	}
-	if (mlx_is_key_down(cub->mlx, MLX_KEY_RIGHT))
+	if (mlx_is_key_down(cub->mlx, MLX_KEY_RIGHT) || mlx_is_key_down(cub->mlx, MLX_KEY_D))
 	{
 		//both camera direction and camera plane must be rotated
 		cub->v.oldDir[0] = cub->v.playerDir[0];
@@ -63,20 +82,12 @@ void	keyHook(void *param)
 		if (worldMap[(int)cub->v.playerPos[0]][(int)(cub->v.playerPos[1] + cub->v.playerDir[1] * cub->v.moveSpeed)] == false)
 			cub->v.playerPos[1] += cub->v.playerDir[1] * cub->v.moveSpeed;
 	}
-	if (mlx_is_key_down(cub->mlx, MLX_KEY_A))
-	{
-		printf("a\n");
-	}
 	if (mlx_is_key_down(cub->mlx, MLX_KEY_S))
 	{
 		if (worldMap[(int)(cub->v.playerPos[0] - cub->v.playerDir[0] * cub->v.moveSpeed)][(int)cub->v.playerPos[1]] == false)
 			cub->v.playerPos[0] -= cub->v.playerDir[0] * cub->v.moveSpeed;
 		if (worldMap[(int)cub->v.playerPos[0]][(int)(cub->v.playerPos[1] - cub->v.playerDir[1] * cub->v.moveSpeed)] == false)
 			cub->v.playerPos[1] -= cub->v.playerDir[1] * cub->v.moveSpeed;
-	}
-	if (mlx_is_key_down(cub->mlx, MLX_KEY_D))
-	{
-		printf("d\n");
 	}
 }
 
@@ -179,7 +190,7 @@ void castRays(void *param)
 	//speed modifiers
 	cub->v.moveSpeed = cub->v.frameTime * 5.0; //the constant value is in squares/second
 	cub->v.rotSpeed = cub->v.frameTime * 3.0; //the constant value is in radians/second
-	mlx_loop_hook(cub->mlx, &keyHook, cub);
+	mlx_key_hook(cub->mlx, &keyHook, cub);
 }
 
 void	init_cub(t_cub *cub)
@@ -205,8 +216,8 @@ int main()
 	ft_bzero(&cub, sizeof(t_cub));
 	cub.mlx = mlx_init(screenWidth, screenHeight, "Raycaster", 1);
 	cub.img = mlx_new_image(cub.mlx, screenWidth, screenHeight);
-	cub.v.playerPos[0] = 4;
-	cub.v.playerPos[1] = 4;
+	cub.v.playerPos[0] = 3;
+	cub.v.playerPos[1] = 3;
 	cub.v.playerDir[0] = -1;
 	cub.v.playerDir[1] = 0;
 	cub.v.camPlane[0] = 0;

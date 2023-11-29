@@ -12,12 +12,12 @@
 
 #define screenWidth 640
 #define screenHeight 480
-#define mapWidth 6
-#define mapHeight 6
+#define mapWidth 24
+#define mapHeight 24
 
 typedef struct s_var
 {
-	double		playerPos[2];
+	double		pos[2];
 	double		playerDir[2];
 	double		camPlane[2];
 	double		time[2];
@@ -28,7 +28,7 @@ typedef struct s_var
 	double		deltaDist[2];
 	double		perpWallDist;
 	int			step[2];
-	int			hit;
+	double		hit;
 	int			side;
 	int			lineHeight;
 	int 		drawPoints[2];
@@ -38,25 +38,41 @@ typedef struct s_var
 	double		rotSpeed;
 	double		oldDir[2];
 	double		oldPlane[2];
+	double		camAngle;
+	int			texture;
 }	t_var;
 
-typedef struct s_math
+typedef struct s_texture
 {
-	uint32_t	a;
-	uint32_t	b;
-}	t_math;
+	mlx_texture_t	*north;
+	mlx_texture_t	*south;
+	mlx_texture_t	*west;
+	mlx_texture_t	*east;
+	int				**northArr;
+	int				**southArr;
+	int				**westArr;
+	int				**eastArr;
+}	t_texture;
 
 typedef struct s_cub
 {
-	mlx_t			*mlx;
-	mlx_image_t		*img;
-	mlx_texture_t	*textures[4];
-	struct s_var	v;
+	mlx_t				*mlx;
+	mlx_image_t			*img;
+	char				**map;
+	uint32_t			ceiling;
+	uint32_t			floor;
+	struct s_var		v;
+	struct s_texture	texture;
 }	t_cub;
 
 //functions
-int		get_rgba(int r, int g, int b, int a);
-void	keys_hook(mlx_key_data_t keydata, void *param);
-void	drawFloor(t_cub *cub);
+int		getColor(int r, int g, int b, int a);
+void	keysHook(t_cub *cub);
+void	closeHook(void *param);
+void	setData(t_cub *cub, int x);
+void	setSideDist(t_cub *cub);
+void	dda(t_cub *cub);
+void	setDrawRange(t_cub *cub);
+void	mainLoop(void *param);
 
 #endif
