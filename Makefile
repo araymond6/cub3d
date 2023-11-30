@@ -1,9 +1,10 @@
 NAME = cub3D
 LIBFT = $(LIB_DIR)libft.a
 MLX42 = MLX42/build/libmlx42.a
+LIBFTGC = $(GC_DIR)lib/libftgc.a
 
 CC = gcc
-CFLAGS = -g
+CFLAGS = -g -fsanitize=address
 MLX_FLAGS = -framework Cocoa -framework OpenGL -framework IOKit -I /include -lglfw -L "/Users/$(USER)/.brew/opt/glfw/lib/"
 
 SRC_DIR = src/
@@ -12,10 +13,13 @@ LIB_DIR = libft/
 MLX_DIR = MLX42/
 BUILD_DIR = $(MLX_DIR)build
 OBJ_DIR = obj/
+GC_DIR = $(LIB_DIR)42_garbage_collector/
 
 SRCS =	main.c \
 		raycast.c \
 		raycast2.c \
+		texture.c \
+		movement.c \
 		utils.c
 VPATH = $(SRC_DIR) $(INC_DIR)
 
@@ -43,7 +47,7 @@ YELLOW = \033[93m
 BLUE = \033[94m
 RESET = \033[0m
 
-all: lib mlx $(NAME)
+all: lib mlx gc $(NAME)
 
 $(OBJ_DIR)%.o: %.c $(INC_PRE)
 	mkdir -p $(OBJ_DIR)
@@ -56,7 +60,6 @@ $(NAME): $(OBJ_PRE)
 
 re: fclean all
 
-# @if [ ! -f ./include/readline/libreadline.a ]; then 
 mlx:
 	@echo "$(YELLOW)Checking MLX42...$(RESET)"
 	@if [ ! -f $(MLX42) ]; then \
@@ -64,6 +67,12 @@ mlx:
 		(make -C $(BUILD_DIR)); \
 		fi
 	@echo "$(YELLOW)MLX42 built!$(RESET)"
+
+gc:
+	@echo "$(YELLOW)Making garbage collector...$(RESET)"
+	@if [ ! -f $(LIBFTGC) ]; then \
+		(make -C $(GC_DIR)); \
+		fi
 
 dep:
 	@echo "$(YELLOW)Checking dependencies...$(RESET)"
@@ -87,13 +96,15 @@ clean:
 	rm -rf $(OBJ_DIR)
 	make clean -C $(LIB_DIR)
 	make clean -C $(BUILD_DIR)
+	make clean -C $(GC_DIR)
 
 fclean: clean
 	rm -rf $(NAME)
 	rm -rf $(BUILD_DIR)
 	make fclean -C $(LIB_DIR)
+	make fclean -C $(GC_DIR)
 
 valgrind: 
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes ./$(NAME)
 
-.PHONY: re debug fclean clean all run mlx dep valgrind
+.PHONY: re debug fclean clean all run mlx dep valgrind gc

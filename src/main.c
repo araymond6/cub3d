@@ -1,49 +1,34 @@
 #include "../include/cub3D.h"
-#include "../include/cub.h"
+//#include "../include/cub.h"
 
-#define screenWidth 640
-#define screenHeight 480
-#define mapWidth 8
-#define mapHeight 8
-
-char	worldMap[mapWidth][mapHeight] = {
-	{1, 1, 1, 1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 1, 1, 1, 1}
-};
-
-void	closeHook(void *param)
-{
-	t_cub	*cub;
-
-	if (param)
-		cub = param;
-	mlx_close_window(cub->mlx);
-}
-
-void	initCub(t_cub *cub)
+void	init_cub(t_cub *cub)
 {
 	ft_bzero(cub, sizeof(t_cub));
+	cub->v.pos[0] = (double)5 / 8 + 0.5;
+	cub->v.pos[1] = (double)5 / 8 + 0.5;
+	cub->v.step[0] = 1;
+	cub->v.step[1] = 1;
+	cub->v.camangle = 0.5;
+	// for the direction
+	cub->v.playerdir[0] = 1;
+	cub->v.camplane[1] = -0.66;
+	cub->v.movespeed = 0.00007;
+	cub->v.rotspeed = 0.00004;
 }
 
-int main(int ac, char **av)
+int main(int ac, char **av) //TODO: make sure all initial data is good
 {
 	t_cub cub;
 
-	initCub(&cub);
-
-	cub.map = worldMap;
-	cub.mlx = mlx_init(screenWidth, screenHeight, "Minecraft", 0);
-	cub.img = mlx_new_image(cub.mlx, screenWidth, screenHeight);
-	mlx_loop_hook(cub.mlx, &mainLoop, &cub);
-	mlx_close_hook(cub.mlx, &closeHook, &cub);
+	init_cub(&cub);
+	init_texture(&cub);
+	fill_map(&cub);
+	cub.mlx = mlx_init(SCREENWIDTH, SCREENHEIGHT, "Minecraft", 0);
+	cub.img = mlx_new_image(cub.mlx, SCREENWIDTH, SCREENHEIGHT);
+	mlx_image_to_window(cub.mlx, cub.img, 0, 0);
+	mlx_loop_hook(cub.mlx, &main_loop, &cub);
+	mlx_close_hook(cub.mlx, &close_hook, &cub);
 	mlx_loop(cub.mlx);
 	mlx_close_window(cub.mlx);
 	mlx_terminate(cub.mlx);
-
 }
