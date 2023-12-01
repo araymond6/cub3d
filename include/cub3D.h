@@ -5,7 +5,7 @@
 # include <stdlib.h>
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/src/libft.h"
-# include "../libft/42_garbage_collector/lib/ft_gc.h"
+//# include "../libft/42_garbage_collector/lib/ft_gc.h"
 # include <math.h>
 # include <unistd.h>
 # include <string.h>
