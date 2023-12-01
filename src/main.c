@@ -14,6 +14,8 @@ void	init_cub(t_cub *cub)
 	cub->v.camplane[1] = -0.66;
 	cub->v.movespeed = 0.00007;
 	cub->v.rotspeed = 0.00004;
+	cub->mapheight = 8;
+	cub->mapwidth = 8;
 }
 
 int main(int ac, char **av) //TODO: make sure all initial data is good

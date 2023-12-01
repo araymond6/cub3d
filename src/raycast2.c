@@ -67,16 +67,15 @@ void	dda(t_cub *cub)
 {
 	while (1)
 	{
-		dda_calc(cub);
 		if (cub->map[(int)cub->v.map[0]][(int)cub->v.map[1]] == '1')
 			break ;
+		else
+			dda_calc(cub);
 	}
 	if (cub->v.side < 2)
-		cub->v.perpwalldist = (cub->v.sidedist[0]
-				- cub->v.deltadist[0]);
+		cub->v.perpwalldist = (cub->v.sidedist[0] - cub->v.deltadist[0]);
 	else
-		cub->v.perpwalldist = (cub->v.sidedist[1]
-				- cub->v.deltadist[1]);
+		cub->v.perpwalldist = (cub->v.sidedist[1] - cub->v.deltadist[1]);
 }
 
 void	set_draw_range(t_cub *cub)

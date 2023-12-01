@@ -63,6 +63,8 @@ typedef struct s_cub
 	char				**map;
 	uint32_t			ceiling;
 	uint32_t			floor;
+	int					mapheight;
+	int					mapwidth;
 	struct s_var		v;
 	struct s_texture	texture;
 }	t_cub;

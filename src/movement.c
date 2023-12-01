@@ -1,6 +1,6 @@
 #include "../include/cub3D.h"
 
-void	rotate_player(int *vec_x, int *vec_y, double dir);
+void	rotate_player(double *vec_x, double *vec_y, double dir);
 void	strafe_player(t_cub *cub, double movespeed);
 void	move_player(t_cub *cub, double movespeed);
 
@@ -30,7 +30,7 @@ void	keys_hook(t_cub *cub)
 	}
 }
 
-void	rotate_player(int *vec_x, int *vec_y, double dir)
+void	rotate_player(double *vec_x, double *vec_y, double dir)
 {
 	double	x;
 
@@ -39,32 +39,39 @@ void	rotate_player(int *vec_x, int *vec_y, double dir)
 	*vec_y = x * sin(dir) + *vec_y * cos(dir);
 }
 
+// checks if the new position is inbound or not
+static int	is_wall(t_cub *cub, double new_pos[2], double movespeed)
+{
+	return (cub->map[(int)(new_pos[0])][(int)(new_pos[1])] == '1');
+}
+
+// updates player movement depending on if new_pos is in a wall or not
 void	move_player(t_cub *cub, double movespeed)
 {
-	double	checkradius;
+	double	new_pos[2];
 
-	checkradius = 0.5; // change this
-	if (movespeed < 0)
-		checkradius = -checkradius;
-	if (cub->map[(int)(cub->v.pos[0] + cub->v.playerdir[0] * \
-		(movespeed + checkradius))][(int)cub->v.pos[1]] == '0')
-		cub->v.pos[0] += cub->v.playerdir[0] * movespeed;
-	if (cub->map[(int)cub->v.pos[0]][(int)(cub->v.pos[1] + \
-		cub->v.playerdir[1] * (movespeed + checkradius))] == '0')
-		cub->v.pos[1] += cub->v.playerdir[1] * movespeed;
+	new_pos[0] = cub->v.pos[0] + cub->v.playerdir[0] * movespeed;
+	new_pos[1] = cub->v.pos[1] + cub->v.playerdir[1] * movespeed;
+	if (!is_wall(cub, new_pos, movespeed))
+	{
+		cub->v.pos[0] = new_pos[0];
+		cub->v.pos[1] = new_pos[1];
+	}
 }
 
+// updates player movement depending on if new_pos is in a wall or not
 void	strafe_player(t_cub *cub, double movespeed)
 {
-	double	checkradius;
+	double	new_pos[2];
 
-	checkradius = 0.5; // change this
-	if (movespeed < 0)
-		checkradius = -checkradius;
-	if (cub->map[(int)(cub->v.pos[0] + cub->v.playerdir[1] * \
-		(movespeed + checkradius))][(int)cub->v.pos[1]] == '0')
-		cub->v.pos[0] += cub->v.playerdir[0] * movespeed;
-	if (cub->map[(int)cub->v.pos[0]][(int)(cub->v.pos[1] + \
-		cub->v.playerdir[0] * (movespeed + checkradius))] == '0')
-		cub->v.pos[1] += cub->v.playerdir[1] * movespeed;
+	new_pos[0] = cub->v.pos[0] + cub->v.playerdir[1] * movespeed;
+	new_pos[1] = cub->v.pos[1] - cub->v.playerdir[0] * movespeed;
+	if (!is_wall(cub, new_pos, movespeed))
+	{
+		cub->v.pos[0] = new_pos[0];
+		cub->v.pos[1] = new_pos[1];
+	}
 }
+
+// if (cub->map[(int)cub->v.pos[0]][(int)(cub->v.pos[1] + 
+// 	cub->v.playerdir[0] * (movespeed + checkradius))] == '0')
