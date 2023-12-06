@@ -15,7 +15,7 @@
 #define SCREENHEIGHT 480
 #define MAPWIDTH 8
 #define MAPHEIGHT 8
-#define CHECKRADIUS 0.5
+#define PLAYERBOUND 0.5
 
 typedef struct s_var
 {

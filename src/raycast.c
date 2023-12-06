@@ -21,6 +21,7 @@ void	find_hit(t_cub *cub, mlx_texture_t *texture)
 		cub->v.texture = texture->width - cub->v.texture - 1;
 }
 
+// draws the line for the wall with the correct tecture point, 
 void	draw_line(t_cub *cub, mlx_texture_t *texture, int **ar, int x)
 {
 	double	dist;
@@ -44,6 +45,7 @@ void	draw_line(t_cub *cub, mlx_texture_t *texture, int **ar, int x)
 	}
 }
 
+// selects the correct texture to draw depending on the wall side it's hitting
 void	select_texture(t_cub *cub, int x)
 {
 	if (cub->v.side == 0)
@@ -68,7 +70,7 @@ void	select_texture(t_cub *cub, int x)
 	}
 }
 
-void	vert_line(t_cub *cub, int x)
+void	draw_floornwalls(t_cub *cub, int x)
 {
 	int	y;
 
@@ -92,10 +94,9 @@ void	main_loop(void *param)
 		set_side_dist(cub);
 		dda(cub);
 		set_draw_range(cub);
-		vert_line(cub, x);
+		draw_floornwalls(cub, x);
 		select_texture(cub, x);
 		keys_hook(cub);
 	}
-	//track_window(cub); //what is this(?)
-	usleep(1500);
+	usleep(500);
 }

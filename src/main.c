@@ -16,6 +16,8 @@ void	init_cub(t_cub *cub)
 	cub->v.rotspeed = 0.00004;
 	cub->mapheight = 8;
 	cub->mapwidth = 8;
+	cub->ceiling = get_color(1, 1, 50, 255);
+	cub->floor = get_color(0, 100, 0, 255);
 }
 
 int main(int ac, char **av) //TODO: make sure all initial data is good
