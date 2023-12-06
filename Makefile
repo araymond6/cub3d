@@ -24,7 +24,8 @@ SRCS =	main.c \
 		raycast2.c \
 		movement.c \
 		texture.c \
-		utils.c
+		utils.c \
+		utils2.c
 VPATH = $(SRC_DIR) $(INC_DIR)
 
 OBJS = $(SRCS:%.c=%.o)

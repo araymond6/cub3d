@@ -20,6 +20,7 @@
 #define MAPHEIGHT 8
 #define PLAYERBOUND 0.3
 
+// all variables used throughout raycasting, movement and rotation
 typedef struct s_var
 {
 	double		pos[2];
@@ -53,6 +54,8 @@ typedef struct s_texture
 	mlx_texture_t	*south;
 	mlx_texture_t	*west;
 	mlx_texture_t	*east;
+
+	// used for placing the texture pixels on the appropriate wall
 	int				**northarr;
 	int				**southarr;
 	int				**westarr;
@@ -63,8 +66,8 @@ typedef struct s_cub
 {
 	mlx_t				*mlx;
 	mlx_image_t			*img;
-	uint32_t			ceiling;
-	uint32_t			floor;
+	uint32_t			ceiling; //ceiling color
+	uint32_t			floor; // floor color
 	int					mapheight;
 	int					mapwidth;
 	struct s_var		v;
@@ -106,18 +109,19 @@ void	set_side_dist(t_cub *cub);
 void	dda(t_cub *cub);
 void	set_draw_range(t_cub *cub);
 void	main_loop(void *param);
-void	fill_map(t_cub *cub); // TODO: REMOVE WHEN PARSING DONE
 void	init_texture(t_cub *cub);
 
+void	fill_map(t_cub *cub); // TODO: REMOVE WHEN PARSING DONE
 
 //parsing functions
-void check_map_args(t_map *map);
-void get_texture_path(t_map *s_map);
-char *trim_texture_path(char *texture_path);
-int parse_rgb_values(const char *rgbString, t_map *map, int isFloor);
-void read_map(t_map *map);
+void	check_map_args(t_map *map);
+void	get_texture_path(t_map *s_map);
+char	*trim_texture_path(char *texture_path);
+int		parse_rgb_values(const char *rgbString, t_map *map, int isFloor);
+void	read_map(t_map *map);
 
 // all utils
+void	init_cub(t_cub *cub);
 void	free_chararray(char **arr);
 void	exit_program(t_cub *cub);
 int		get_color(int r, int g, int b, int a);
