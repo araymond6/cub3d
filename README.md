@@ -6,8 +6,6 @@ sujet : https://cdn.intra.42.fr/pdf/pdf/105109/fr.subject.pdf
 textures : blocs minecraft:
 mettre texture en .xpm
 
-mettre le garbage collector dans la libft
-
 
 
  1er : raycasting 
@@ -18,4 +16,4 @@ mettre le garbage collector dans la libft
 
  4 : gestion des erreurs 
 
- en cours de gestion du parsing et raycasting...
+path to texture and rgb values for ceiling and floor done 🟩(datas in my map struct), need to finish the read_map function 🟥(to store only the map)
