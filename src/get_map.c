@@ -1,4 +1,4 @@
-#include "../include/cub.h"
+#include "../include/cub3D.h"
 
 
 // Function to read the map from a file and update a t_map struct

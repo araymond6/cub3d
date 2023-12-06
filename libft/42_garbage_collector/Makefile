@@ -55,7 +55,7 @@ clean:
 
 fclean:		clean
 			$(RM) $(LIB_DIR)/$(NAME) $(LIB_DIR)/$(LIB_HEADER) $(EX1_BIN) $(EX2_BIN)
-			@rmdir --ignore-fail-on-non-empty $(LIB_DIR)
+			@rm -rf $(LIB_DIR)
 			@echo "All binaries cleaned"
 
 re:			fclean all
