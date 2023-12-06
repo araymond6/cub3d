@@ -62,19 +62,6 @@ typedef struct s_texture
 	int				**eastarr;
 }	t_texture;
 
-typedef struct s_cub
-{
-	mlx_t				*mlx;
-	mlx_image_t			*img;
-	uint32_t			ceiling; //ceiling color
-	uint32_t			floor; // floor color
-	int					mapheight;
-	int					mapwidth;
-	struct s_var		v;
-	struct s_texture	texture;
-	struct s_map		map;
-}	t_cub;
-
 // parsing struct
 typedef struct s_map
 {
@@ -101,6 +88,20 @@ typedef struct s_map
 	
 } t_map;
 
+typedef struct s_cub
+{
+	mlx_t				*mlx;
+	mlx_image_t			*img;
+	uint32_t			ceiling; //ceiling color
+	uint32_t			floor; // floor color
+	int					mapheight;
+	int					mapwidth;
+	struct s_var		v;
+	struct s_texture	texture;
+	struct s_map		map;
+}	t_cub;
+
+
 // raycast and mlx functions
 void	keys_hook(t_cub *cub);
 void	close_hook(void *param);
@@ -122,7 +123,8 @@ void	read_map(t_map *map);
 
 // all utils
 void	init_cub(t_cub *cub);
-void	free_chararray(char **arr);
+void	free_int_array(int **arr, int x, int y);
+void	free_char_array(char **arr);
 void	exit_program(t_cub *cub);
 int		get_color(int r, int g, int b, int a);
 int		ft_strcmp(const char *str1, const char *str2);

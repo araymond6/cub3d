@@ -1,7 +1,7 @@
-   		SO ./path_to_the_south_texture
-NO        ./path_to_the_north_texture
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
+   		SO ./textures/Birch.png
+NO        ./textures/Jungle.png
+WE ./textures/Oak.png
+EA ./textures/Spruce.png
 
 F 220,100,0
 C 225,30,0

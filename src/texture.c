@@ -38,7 +38,7 @@ int	**texture_to_array(mlx_texture_t *texture)
 		array[i] = ft_calloc(texture->width, sizeof(int));
 		if (!array[i])
 		{
-			free_chararray(array);
+			free_int_array(array, MAPWIDTH, MAPHEIGHT);
 			return (NULL);
 		}
 		i++;
@@ -50,13 +50,13 @@ int	**texture_to_array(mlx_texture_t *texture)
 void	free_texture(t_cub *cub)
 {
 	if (cub->texture.northarr)
-		free_chararray(cub->texture.northarr);
+		free_int_array(cub->texture.northarr, MAPWIDTH, MAPHEIGHT);
 	if (cub->texture.southarr)
-		free_chararray(cub->texture.southarr);
+		free_int_array(cub->texture.southarr, MAPWIDTH, MAPHEIGHT);
 	if (cub->texture.westarr)
-		free_chararray(cub->texture.westarr);
+		free_int_array(cub->texture.westarr, MAPWIDTH, MAPHEIGHT);
 	if (cub->texture.eastarr)
-		free_chararray(cub->texture.eastarr);
+		free_int_array(cub->texture.eastarr, MAPWIDTH, MAPHEIGHT);
 	if (cub->texture.north)
 		mlx_delete_texture(cub->texture.north);
 	if (cub->texture.south)
@@ -69,10 +69,10 @@ void	free_texture(t_cub *cub)
 
 void	init_texture(t_cub *cub)
 {
-	cub->texture.north = mlx_load_png(cub->map.NO_path);
-	cub->texture.south = mlx_load_png(cub->map.SO_path);
-	cub->texture.west = mlx_load_png(cub->map.WE_path);
-	cub->texture.east = mlx_load_png(cub->map.EA_path);
+	cub->texture.north = mlx_load_png("textures/Birch.png");
+	cub->texture.south = mlx_load_png("textures/Jungle.png");
+	cub->texture.west = mlx_load_png("textures/Oak.png");
+	cub->texture.east = mlx_load_png("textures/Spruce.png");
 	if (!cub->texture.north || !cub->texture.south || !cub->texture.west \
 		|| !cub->texture.east)
 	{

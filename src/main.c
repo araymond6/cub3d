@@ -5,11 +5,11 @@ int main()
     t_map map;
 	t_cub cub;
 
-	//parsing functions
-    map.map_path = "example.cub";
-    check_map_args(&map);
-    get_texture_path(&map);
-    read_map(&map);
+	// //parsing functions
+    // map.map_path = "example.cub";
+    // check_map_args(&map);
+    // get_texture_path(&map);
+    // read_map(&map);
 
 	//raycast initialization
 	init_cub(&cub);
