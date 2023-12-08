@@ -1,4 +1,4 @@
-#include "../include/cub3D.h"
+#include "../include/cub.h"
 
 char	*ft_strtok(char *str, const char *delimiters)
 {

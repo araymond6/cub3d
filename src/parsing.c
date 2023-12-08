@@ -1,4 +1,4 @@
-#include "../include/cub3D.h"
+#include "../include/cub.h"
 #define MAX_LINES 100
 
 void	check_map_args(t_map *s_map)
@@ -65,6 +65,7 @@ void get_texture_path(t_map *s_map)
 	s_map->NO_path = NULL;
 	s_map->WE_path = NULL;
 	s_map->SO_path = NULL;
+	s_map->start_map_index = 0;
     while (s_map->map[i])
     {
         char *line = trim_spaces(s_map->map[i]);
@@ -81,12 +82,12 @@ void get_texture_path(t_map *s_map)
             else if (ft_strcmp(token, "EA") == 0)
                 set_texture_path(&s_map->EA_path, ft_strtok(NULL, " "), "EA", s_map);
 			else if(ft_strcmp(token,"F") == 0)
-			{
 				s_map->f_rgb = (ft_strtok(NULL," "));
-				s_map->start_map_index = i; 				// delete after test
-			}
 			else if(ft_strcmp(token,"C") == 0)
 				s_map->c_rgb = (ft_strtok(NULL," "));
+			else if(s_map->c_rgb != NULL && s_map->f_rgb != NULL && s_map->NO_path != NULL && s_map->SO_path != NULL 
+				&& s_map->WE_path != NULL && s_map->EA_path != NULL && s_map->start_map_index == 0)
+					s_map->start_map_index = i;
             token = ft_strtok(NULL, " ");
         }
         i++;
@@ -99,14 +100,14 @@ char	*trim_texture_path(char *texture_path)
 	int i = 0;
 	int j = 0;
 
-	while (texture_path[i] != '.' && texture_path[i] != '\0')
+	while (texture_path[i] != '/' && texture_path[i] != '\0')
 		i++;
 	if (texture_path[i] == '\0')
 	{
 		perror("Dot not found in texture path");
 		return (NULL);
 	}
-	char *clean_path = malloc(strlen(texture_path) - i + 1);
+	char *clean_path = malloc(ft_strlen(texture_path) - i + 1);
 
 	if (clean_path == NULL)
 	{

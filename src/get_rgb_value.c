@@ -1,4 +1,4 @@
-#include "../include/cub3D.h"
+#include "../include/cub.h"
 
 int	parse_rgb_values(const char *rgbString, t_map *map, int isFloor)
 {
