@@ -50,15 +50,15 @@ void	fill_map(t_cub *cub)
 	int	i;
 	int	j;
 
-	cub->map.map = ft_calloc(MAPHEIGHT + 1, sizeof(char *));
+	cub->map.map = ft_calloc(cub->map.map_height + 1, sizeof(char *));
 	i = 0;
-	while (i < MAPHEIGHT)
+	while (i < cub->map.map_height)
 	{
 		j = 0;
-		cub->map.map[i] = ft_calloc(MAPWIDTH + 1, sizeof(char));
-		while (j < MAPWIDTH)
+		cub->map.map[i] = ft_calloc(cub->map.map_width + 1, sizeof(char));
+		while (j < cub->map.map_width)
 		{
-			if (j == 0 || j == MAPWIDTH - 1 || i  == 0 || i == MAPHEIGHT - 1)
+			if (j == 0 || j == cub->map.map_width - 1 || i  == 0 || i == cub->map.map_height - 1)
 				cub->map.map[i][j] = '1';
 			else
 				cub->map.map[i][j] = '0';

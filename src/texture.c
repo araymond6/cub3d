@@ -24,7 +24,7 @@ void	fill_array(mlx_texture_t *texture, int **array)
 	}
 }
 
-int	**texture_to_array(mlx_texture_t *texture)
+int	**texture_to_array(t_cub *cub, mlx_texture_t *texture)
 {
 	int	i;
 	int	**array;
@@ -38,7 +38,7 @@ int	**texture_to_array(mlx_texture_t *texture)
 		array[i] = ft_calloc(texture->width, sizeof(int));
 		if (!array[i])
 		{
-			free_int_array(array, MAPWIDTH, MAPHEIGHT);
+			free_int_array(array, cub->map.map_width, cub->map.map_width);
 			return (NULL);
 		}
 		i++;
@@ -69,6 +69,11 @@ void	free_texture(t_cub *cub)
 
 void	init_texture(t_cub *cub)
 {
+	printf("%s\n", cub->map.NO_path);
+	printf("%s\n", cub->map.SO_path);
+	printf("%s\n", cub->map.WE_path);
+	printf("%s\n", cub->map.EA_path);
+
 	cub->texture.north = mlx_load_png(cub->map.NO_path);
 	cub->texture.south = mlx_load_png(cub->map.SO_path);
 	cub->texture.west = mlx_load_png(cub->map.WE_path);
@@ -80,10 +85,10 @@ void	init_texture(t_cub *cub)
 		exit_program(cub);
 	}
 	
-	cub->texture.northarr = texture_to_array(cub->texture.north);
-	cub->texture.southarr = texture_to_array(cub->texture.south);
-	cub->texture.westarr = texture_to_array(cub->texture.west);
-	cub->texture.eastarr = texture_to_array(cub->texture.east);
+	cub->texture.northarr = texture_to_array(cub, cub->texture.north);
+	cub->texture.southarr = texture_to_array(cub, cub->texture.south);
+	cub->texture.westarr = texture_to_array(cub, cub->texture.west);
+	cub->texture.eastarr = texture_to_array(cub, cub->texture.east);
 	if (!cub->texture.northarr || !cub->texture.southarr \
 		|| !cub->texture.westarr || !cub->texture.eastarr)
 	{

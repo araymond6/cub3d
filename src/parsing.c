@@ -1,4 +1,4 @@
-#include "../include/cub.h"
+#include "../include/cub3D.h"
 #define MAX_LINES 100
 
 void	check_map_args(t_map *s_map)
@@ -100,8 +100,6 @@ char	*trim_texture_path(char *texture_path)
 	int i = 0;
 	int j = 0;
 
-	while (texture_path[i] != '/' && texture_path[i] != '\0')
-		i++;
 	if (texture_path[i] == '\0')
 	{
 		perror("Dot not found in texture path");

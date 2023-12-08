@@ -16,8 +16,6 @@
 
 #define SCREENWIDTH 640
 #define SCREENHEIGHT 480
-#define MAPWIDTH 8
-#define MAPHEIGHT 8
 #define PLAYERBOUND 0.2
 
 // all variables used throughout raycasting, movement and rotation
@@ -64,7 +62,13 @@ typedef struct s_texture
 typedef struct s_map
 {
 	char **map;
-	char *map_path;
+	char	**only_map;
+	char	*map_path;
+	int		player_pos_x;
+	int		player_pos_y;
+	int		map_height;
+	int		map_width;
+	char	playerdir;
 
 	char *NO_path;
 	char *SO_path;
@@ -92,8 +96,6 @@ typedef struct s_cub
 	mlx_image_t			*img;
 	uint32_t			ceiling; //ceiling color
 	uint32_t			floor; // floor color
-	int					mapheight;
-	int					mapwidth;
 	struct s_var		v;
 	struct s_texture	texture;
 	struct s_map		map;

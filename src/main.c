@@ -35,7 +35,6 @@ int main()
 	init_texture(&cub);
 	printf("c: %d, %d, %d\n", cub.map.c_red, cub.map.c_green, cub.map.c_blue);
 	printf("f: %d, %d, %d\n", cub.map.f_red, cub.map.f_green, cub.map.f_blue);
-	fill_map(&cub);
 
 	start_mlx(&cub);
 	exit_program(&cub);

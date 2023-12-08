@@ -1,4 +1,4 @@
-#include "../include/cub.h"
+#include "../include/cub3D.h"
 
 
 void findMapDimensions(t_map *map) 
@@ -30,6 +30,8 @@ void findPlayerPosition(t_map *map)
             currentCell = map->only_map[i][j];
             if (currentCell == 'N' || currentCell == 'E' || currentCell == 'S' || currentCell == 'W')
             {
+				map->playerdir = currentCell;
+				map->only_map[i][j] = '0';
                 map->player_pos_x = i;
                 map->player_pos_y = j;
                 return;
