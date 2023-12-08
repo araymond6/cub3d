@@ -30,7 +30,7 @@ int	**texture_to_array(mlx_texture_t *texture)
 	int	**array;
 
 	i = 0;
-	array = ft_calloc(texture->height + 1, sizeof(int *));
+	array = ft_calloc(texture->height, sizeof(int *));
 	if (!array)
 		return (NULL);
 	while (i < texture->height)
@@ -50,13 +50,13 @@ int	**texture_to_array(mlx_texture_t *texture)
 void	free_texture(t_cub *cub)
 {
 	if (cub->texture.northarr)
-		free_int_array(cub->texture.northarr, MAPWIDTH, MAPHEIGHT);
+		free_int_array(cub->texture.northarr, cub->texture.north->width, cub->texture.north->height);
 	if (cub->texture.southarr)
-		free_int_array(cub->texture.southarr, MAPWIDTH, MAPHEIGHT);
+		free_int_array(cub->texture.southarr, cub->texture.south->width, cub->texture.south->height);
 	if (cub->texture.westarr)
-		free_int_array(cub->texture.westarr, MAPWIDTH, MAPHEIGHT);
+		free_int_array(cub->texture.westarr, cub->texture.west->width, cub->texture.west->height);
 	if (cub->texture.eastarr)
-		free_int_array(cub->texture.eastarr, MAPWIDTH, MAPHEIGHT);
+		free_int_array(cub->texture.eastarr, cub->texture.east->width, cub->texture.east->height);
 	if (cub->texture.north)
 		mlx_delete_texture(cub->texture.north);
 	if (cub->texture.south)

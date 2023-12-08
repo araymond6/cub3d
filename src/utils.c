@@ -29,7 +29,7 @@ void	free_int_array(int **arr, int x, int y)
 	i = 0;
 	if (arr)
 	{
-		while (arr[i] != NULL)
+		while (i < y)
 		{
 			if (arr[i])
 				free(arr[i]);
@@ -41,16 +41,7 @@ void	free_int_array(int **arr, int x, int y)
 
 void	exit_program(t_cub *cub)
 {
-	mlx_close_window(cub->mlx);
-}
-
-void	close_hook(void *param)
-{
-	t_cub	*cub;
-
-	if (param)
-		cub = param;
-	mlx_close_window(cub->mlx);
+	exit(0);
 }
 
 //TODO: REMOVE THIS WHEN PARSING DONE

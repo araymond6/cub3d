@@ -1,0 +1,25 @@
+Direction:
+
+x-	North = -1
+	South = 1
+y-	North, South = 0
+	East = 1
+	West = -1
+
+Camplane:
+Takes care of the FOV; 0.60 is a FOV of 60 degree, for example
+Camangle:
+Vertical camera angle; 0.5 is straight forward
+Camera:
+Represents the x coordinate on the camera plane. Right side = 1, left side = -1, center = 0.
+Used to normalise the ray direction.
+
+Sidedist:
+Distance to the nearest gridline.
+
+Deltadist:
+Calculates how far the ray needs to travel across horizontal or vertical grid lines
+for each step the ray takes. Calculated by the reciprocal of the ray direction.
+
+Step:
+It reprensents 
