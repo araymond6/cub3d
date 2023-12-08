@@ -1,17 +1,19 @@
 #include "../include/cub3D.h"
 
+// sets and normalises ray directon, floored map position and the distance needed by the ray for each step it takes (deltadist)
 void	set_data(t_cub *cub, int x)
 {
-	cub->v.camera[0] = 2 * x / (double)SCREENWIDTH - 1;
+	cub->v.camera = 2 * x / (double)SCREENWIDTH - 1;
 	cub->v.raydir[0] = cub->v.playerdir[0]
-		+ cub->v.camplane[0] * cub->v.camera[0];
+		+ cub->v.camplane[0] * cub->v.camera;
 	cub->v.raydir[1] = cub->v.playerdir[1]
-		+ cub->v.camplane[1] * cub->v.camera[0];
+		+ cub->v.camplane[1] * cub->v.camera;
 	cub->v.map[0] = (int)cub->v.pos[0];
 	cub->v.map[1] = (int)cub->v.pos[1];
 	cub->v.deltadist[0] = fabs(1 / cub->v.raydir[0]);
 	cub->v.deltadist[1] = fabs(1 / cub->v.raydir[1]);
 }
+
 
 void	set_side_dist(t_cub *cub)
 {
@@ -81,6 +83,7 @@ void	dda(t_cub *cub)
 		cub->v.perpwalldist = (cub->v.sidedist[1] - cub->v.deltadist[1]);
 }
 
+// sets the draw range to draw the wall at the appropriate height
 void	set_draw_range(t_cub *cub)
 {
 	cub->v.lineheight = (int)SCREENHEIGHT / cub->v.perpwalldist;

@@ -18,7 +18,7 @@
 #define SCREENHEIGHT 480
 #define MAPWIDTH 8
 #define MAPHEIGHT 8
-#define PLAYERBOUND 0.3
+#define PLAYERBOUND 0.2
 
 // all variables used throughout raycasting, movement and rotation
 typedef struct s_var
@@ -27,7 +27,7 @@ typedef struct s_var
 	double		playerdir[2];
 	double		camplane[2];
 	double		time[2];
-	double 		camera[2];
+	double 		camera;
 	double		raydir[2];
 	double		map[2];
 	double		sidedist[2];
@@ -38,8 +38,6 @@ typedef struct s_var
 	int			side;
 	int			lineheight;
 	int 		drawpoints[2];
-	int			color;
-	double		frametime;
 	double		movespeed;
 	double		rotspeed;
 	double		olddir[2];

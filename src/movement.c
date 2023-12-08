@@ -4,6 +4,24 @@ void	rotate_player(double *vec_x, double *vec_y, double dir);
 void	strafe_player(t_cub *cub, double movespeed);
 void	move_player(t_cub *cub, double movespeed);
 
+static void	rotate_movement(t_cub *cub)
+{
+	if (mlx_is_key_down(cub->mlx, MLX_KEY_LEFT))
+	{
+		rotate_player(&cub->v.playerdir[0], &cub->v.playerdir[1], \
+		cub->v.rotspeed);
+		rotate_player(&cub->v.camplane[0], &cub->v.camplane[1], \
+		cub->v.rotspeed);
+	}
+	if (mlx_is_key_down(cub->mlx, MLX_KEY_RIGHT))
+	{
+		rotate_player(&cub->v.playerdir[0], &cub->v.playerdir[1], \
+		-cub->v.rotspeed);
+		rotate_player(&cub->v.camplane[0], &cub->v.camplane[1], \
+		-cub->v.rotspeed);
+	}
+}
+
 void	keys_hook(t_cub *cub)
 {
 	if (mlx_is_key_down(cub->mlx, MLX_KEY_ESCAPE))
@@ -18,18 +36,10 @@ void	keys_hook(t_cub *cub)
 		strafe_player(cub, -cub->v.movespeed);
 	if (mlx_is_key_down(cub->mlx, MLX_KEY_D))
 		strafe_player(cub, cub->v.movespeed);
-	if (mlx_is_key_down(cub->mlx, MLX_KEY_LEFT))
-	{
-		rotate_player(&cub->v.playerdir[0], &cub->v.playerdir[1], cub->v.rotspeed);
-		rotate_player(&cub->v.camplane[0], &cub->v.camplane[1], cub->v.rotspeed);
-	}
-	if (mlx_is_key_down(cub->mlx, MLX_KEY_RIGHT))
-	{
-		rotate_player(&cub->v.playerdir[0], &cub->v.playerdir[1], -cub->v.rotspeed);
-		rotate_player(&cub->v.camplane[0], &cub->v.camplane[1], -cub->v.rotspeed);
-	}
+	rotate_movement(cub);
 }
 
+// increments or decrements player's rotation
 void	rotate_player(double *vec_x, double *vec_y, double dir)
 {
 	double	x;
@@ -39,39 +49,40 @@ void	rotate_player(double *vec_x, double *vec_y, double dir)
 	*vec_y = x * sin(dir) + *vec_y * cos(dir);
 }
 
-// checks if the new position is inbound or not
-static int	is_wall(t_cub *cub, double new_pos[2], double movespeed)
-{
-	return (cub->map.map[(int)(new_pos[0])][(int)(new_pos[1])] == '1');
-}
-
-// updates player movement depending on if new_pos is in a wall or not
+/*
+moves the player forward of backwards if it's inbound, 
+while adding a boundary limit to the player's position
+*/ 
 void	move_player(t_cub *cub, double movespeed)
 {
-	double	new_pos[2];
+	double	boundary;
 
-	new_pos[0] = cub->v.pos[0] + cub->v.playerdir[0] * movespeed;
-	new_pos[1] = cub->v.pos[1] + cub->v.playerdir[1] * movespeed;
-	if (!is_wall(cub, new_pos, movespeed))
-	{
-		cub->v.pos[0] = new_pos[0];
-		cub->v.pos[1] = new_pos[1];
-	}
+	boundary = PLAYERBOUND;
+	if (movespeed < 0)
+		boundary = -PLAYERBOUND;
+	if (cub->map.map[(int)(cub->v.pos[0] + cub->v.playerdir[0] * \
+		(movespeed + boundary))][(int)cub->v.pos[1]] == '0')
+		cub->v.pos[0] += cub->v.playerdir[0] * movespeed;
+	if (cub->map.map[(int)cub->v.pos[0]][(int)(cub->v.pos[1] + \
+		cub->v.playerdir[1] * (movespeed + boundary))] == '0')
+		cub->v.pos[1] += cub->v.playerdir[1] * movespeed;
 }
 
-// updates player movement depending on if new_pos is in a wall or not
+/*
+moves the player sideways if it's inbound, 
+while adding a boundary limit to the player's position
+*/ 
 void	strafe_player(t_cub *cub, double movespeed)
 {
-	double	new_pos[2];
+	double	boundary;
 
-	new_pos[0] = cub->v.pos[0] + cub->v.playerdir[1] * movespeed;
-	new_pos[1] = cub->v.pos[1] - cub->v.playerdir[0] * movespeed;
-	if (!is_wall(cub, new_pos, movespeed))
-	{
-		cub->v.pos[0] = new_pos[0];
-		cub->v.pos[1] = new_pos[1];
-	}
+	boundary = PLAYERBOUND;
+	if (movespeed < 0)
+		boundary = -PLAYERBOUND;
+	if (cub->map.map[(int)(cub->v.pos[0] + cub->v.playerdir[1] * \
+		(movespeed + boundary))][(int)cub->v.pos[1]] == '0')
+		cub->v.pos[0] += cub->v.playerdir[1] * movespeed;
+	if (cub->map.map[(int)cub->v.pos[0]][(int)(cub->v.pos[1] - \
+		cub->v.playerdir[0] * (movespeed + boundary))] == '0')
+		cub->v.pos[1] -= cub->v.playerdir[0] * movespeed;
 }
-
-// if (cub->map[(int)cub->v.pos[0]][(int)(cub->v.pos[1] + 
-// 	cub->v.playerdir[0] * (movespeed + checkradius))] == '0')

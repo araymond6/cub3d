@@ -1,16 +1,18 @@
 #include "../include/cub3D.h"
 
+// calculates the intersection point of a ray with a wall and uses it
+// to place the appripriate texture coordinate
 void	find_hit(t_cub *cub, mlx_texture_t *texture)
 {
 	cub->v.hit = 0;
 	if (cub->v.side == 0 || cub->v.side == 1)
 	{
-		cub->v.hit = cub->v.pos[1] + cub->v.perpwalldist *
+		cub->v.hit = cub->v.pos[1] + cub->v.perpwalldist * \
 		cub->v.raydir[1];
 	}
 	else
 	{
-		cub->v.hit = cub->v.pos[0] + cub->v.perpwalldist *
+		cub->v.hit = cub->v.pos[0] + cub->v.perpwalldist * \
 		cub->v.raydir[0];
 	}
 	cub->v.hit -= (int)cub->v.hit;
@@ -70,6 +72,7 @@ void	select_texture(t_cub *cub, int x)
 	}
 }
 
+// draws under the wall, and behind/over the wall with the appropriate color
 void	draw_floornwalls(t_cub *cub, int x)
 {
 	int	y;
