@@ -69,10 +69,10 @@ void	free_texture(t_cub *cub)
 
 void	init_texture(t_cub *cub)
 {
-	cub->texture.north = mlx_load_png("textures/Birch.png");
-	cub->texture.south = mlx_load_png("textures/Jungle.png");
-	cub->texture.west = mlx_load_png("textures/Oak.png");
-	cub->texture.east = mlx_load_png("textures/Spruce.png");
+	cub->texture.north = mlx_load_png(cub->map.NO_path);
+	cub->texture.south = mlx_load_png(cub->map.SO_path);
+	cub->texture.west = mlx_load_png(cub->map.WE_path);
+	cub->texture.east = mlx_load_png(cub->map.EA_path);
 	if (!cub->texture.north || !cub->texture.south || !cub->texture.west \
 		|| !cub->texture.east)
 	{
