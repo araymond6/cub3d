@@ -29,7 +29,7 @@ void read_map(t_map *map)
         j++;
         free(line);
     }
-    map->only_map[i] = "\0";
+    map->only_map[i] = NULL;
     close(fd);
    //print_map(map);
 }
@@ -54,4 +54,28 @@ void free_map(t_map *map)
         free(map->only_map[i]);
     }
     free(map->only_map);
+}
+void add_zero_map(t_map *map)
+{
+    int i;
+    int j;
+
+    i = 0;
+    j = 0;
+    
+    while(map->only_map[i])
+    {
+        j = 0;
+        while(map->only_map[i][j])
+        {
+            if(map->only_map[i][j] == ' ')
+            {
+                map->only_map[i][j] = '0';
+            }
+            j++;
+        }
+        i++;
+    }
+    
+    print_map(map);
 }

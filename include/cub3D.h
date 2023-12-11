@@ -129,5 +129,6 @@ void	exit_program(t_cub *cub);
 int		get_color(int r, int g, int b, int a);
 int		ft_strcmp(const char *str1, const char *str2);
 char	*ft_strtok(char *str, const char *delimiters);
+void add_zero_map(t_map *map);
 
 #endif

@@ -22,22 +22,23 @@ int main()
 	check_map_args(&map);
 	get_texture_path(&map);
 	read_map(&map);
+	add_zero_map(&map);
 
 	//check rgb values for ceiling and floor
-	parse_rgb_values(map.f_rgb,&map,1);
-	parse_rgb_values(map.c_rgb,&map,0);
-	printf("Parsed Floor RGB values: Red: %d, Green: %d, Blue: %d\n", map.f_red, map.f_green, map.f_blue);
-	printf("Parsed Ceiling RGB values: Red: %d, Green: %d, Blue: %d\n", map.c_red, map.c_green, map.c_blue);
+	//parse_rgb_values(map.f_rgb,&map,1);
+	//parse_rgb_values(map.c_rgb,&map,0);
+	//printf("Parsed Floor RGB values: Red: %d, Green: %d, Blue: %d\n", map.f_red, map.f_green, map.f_blue);
+	//printf("Parsed Ceiling RGB values: Red: %d, Green: %d, Blue: %d\n", map.c_red, map.c_green, map.c_blue);
 
 	//raycast initialization
-	cub.map = map;
-	init_cub(&cub);
-	init_texture(&cub);
-	printf("c: %d, %d, %d\n", cub.map.c_red, cub.map.c_green, cub.map.c_blue);
-	printf("f: %d, %d, %d\n", cub.map.f_red, cub.map.f_green, cub.map.f_blue);
+	//cub.map = map;
+	//init_cub(&cub);
+	//init_texture(&cub);
+	//printf("c: %d, %d, %d\n", cub.map.c_red, cub.map.c_green, cub.map.c_blue);
+	//printf("f: %d, %d, %d\n", cub.map.f_red, cub.map.f_green, cub.map.f_blue);
 
-	start_mlx(&cub);
-	exit_program(&cub);
+	//start_mlx(&cub);
+	//exit_program(&cub);
 
 	return 0;
 }
