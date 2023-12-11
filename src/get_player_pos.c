@@ -1,6 +1,5 @@
 #include "../include/cub3D.h"
 
-
 void findMapDimensions(t_map *map) 
 {
     int i = 0;

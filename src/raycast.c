@@ -23,7 +23,7 @@ void	find_hit(t_cub *cub, mlx_texture_t *texture)
 		cub->v.texture = texture->width - cub->v.texture - 1;
 }
 
-// draws the line for the wall with the correct tecture point, 
+// draws the line for the wall with the correct texture point, 
 void	draw_line(t_cub *cub, mlx_texture_t *texture, int **ar, int x)
 {
 	double	dist;

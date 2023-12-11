@@ -29,7 +29,7 @@ void read_map(t_map *map)
         j++;
         free(line);
     }
-    map->only_map[i] = "\0";
+    map->only_map[i] = NULL;
     close(fd);
    //print_map(map);
 }

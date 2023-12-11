@@ -1,7 +1,6 @@
 NAME = cub3D
 LIBFT = $(LIB_DIR)libft.a
 MLX42 = MLX42/build/libmlx42.a
-LIBFTGC = $(GC_DIR)lib/libftgc.a
 
 CC = gcc
 CFLAGS = -g -fsanitize=address
@@ -13,7 +12,6 @@ LIB_DIR = libft/
 MLX_DIR = MLX42/
 BUILD_DIR = $(MLX_DIR)build
 OBJ_DIR = obj/
-GC_DIR = $(LIB_DIR)42_garbage_collector/
 
 SRCS =	main.c \
 		parsing.c \
@@ -43,7 +41,7 @@ YELLOW = \033[93m
 BLUE = \033[94m
 RESET = \033[0m
 
-all: lib mlx gc $(NAME)
+all: lib mlx $(NAME)
 
 $(OBJ_DIR)%.o: %.c $(INC_PRE)
 	mkdir -p $(OBJ_DIR)
@@ -51,7 +49,7 @@ $(OBJ_DIR)%.o: %.c $(INC_PRE)
 
 $(NAME): $(OBJ_PRE)
 	@echo "$(YELLOW)Compiling files...$(RESET)"
-	$(CC) $(CFLAGS) -o $@ $^ $(LIBFT) $(MLX42) $(MLX_FLAGS) libft/42_garbage_collector/lib/libftgc.a
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBFT) $(MLX42) $(MLX_FLAGS)
 	@echo "$(YELLOW)Files compiled!$(RESET)"
 
 re: fclean all
@@ -63,12 +61,6 @@ mlx:
 		(make -C $(BUILD_DIR)); \
 		fi
 	@echo "$(YELLOW)MLX42 built!$(RESET)"
-
-gc:
-	@echo "$(YELLOW)Making garbage collector...$(RESET)"
-	@if [ ! -f $(LIBFTGC) ]; then \
-		(make -C $(GC_DIR)); \
-		fi
 
 dep:
 	@echo "$(YELLOW)Checking dependencies...$(RESET)"
@@ -92,15 +84,13 @@ clean:
 	rm -rf $(OBJ_DIR)
 	make clean -C $(LIB_DIR)
 	make clean -C $(BUILD_DIR)
-	make clean -C $(GC_DIR)
 
 fclean: clean
 	rm -rf $(NAME)
 	rm -rf $(BUILD_DIR)
 	make fclean -C $(LIB_DIR)
-	make fclean -C $(GC_DIR)
 
 valgrind: 
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes ./$(NAME)
 
-.PHONY: re debug fclean clean all run mlx dep valgrind gc
+.PHONY: re debug fclean clean all run mlx dep valgrind 

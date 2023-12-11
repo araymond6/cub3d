@@ -80,9 +80,9 @@ void	strafe_player(t_cub *cub, double movespeed)
 	if (movespeed < 0)
 		boundary = -PLAYERBOUND;
 	if (cub->map.map[(int)(cub->v.pos[0] + cub->v.playerdir[1] * \
-		(movespeed + boundary))][(int)cub->v.pos[1]] == '0')
+		(movespeed + boundary))][(int)cub->v.pos[1]] != '1')
 		cub->v.pos[0] += cub->v.playerdir[1] * movespeed;
 	if (cub->map.map[(int)cub->v.pos[0]][(int)(cub->v.pos[1] - \
-		cub->v.playerdir[0] * (movespeed + boundary))] == '0')
+		cub->v.playerdir[0] * (movespeed + boundary))] != '1')
 		cub->v.pos[1] -= cub->v.playerdir[0] * movespeed;
 }

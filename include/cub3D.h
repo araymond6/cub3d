@@ -61,7 +61,7 @@ typedef struct s_texture
 // parsing struct
 typedef struct s_map
 {
-	char **map;
+	char	**map;
 	char	**only_map;
 	char	*map_path;
 	int		player_pos_x;
@@ -70,23 +70,23 @@ typedef struct s_map
 	int		map_width;
 	char	playerdir;
 
-	char *NO_path;
-	char *SO_path;
-	char *WE_path;
-	char *EA_path;
+	char	*NO_path;
+	char	*SO_path;
+	char	*WE_path;
+	char	*EA_path;
 
-	char *f_rgb;
-	char *c_rgb;
+	char	*f_rgb;
+	char	*c_rgb;
 
-	int f_red;
-	int f_green;
-	int f_blue;
+	int		f_red;
+	int		f_green;
+	int		f_blue;
 
-	int c_red;
-	int c_green;
-	int c_blue;
+	int		c_red;
+	int		c_green;
+	int		c_blue;
 
-	int start_map_index;
+	int		start_map_index;
 	
 } t_map;
 
@@ -99,6 +99,7 @@ typedef struct s_cub
 	struct s_var		v;
 	struct s_texture	texture;
 	struct s_map		map;
+	int					error;
 }	t_cub;
 
 
@@ -111,8 +112,6 @@ void	dda(t_cub *cub);
 void	set_draw_range(t_cub *cub);
 void	main_loop(void *param);
 void	init_texture(t_cub *cub);
-
-void	fill_map(t_cub *cub); // TODO: REMOVE WHEN PARSING DONE
 
 //parsing functions
 void	check_map_args(t_map *map);
@@ -129,5 +128,12 @@ void	exit_program(t_cub *cub);
 int		get_color(int r, int g, int b, int a);
 int		ft_strcmp(const char *str1, const char *str2);
 char	*ft_strtok(char *str, const char *delimiters);
+void	free_map(t_map *map);
+void	free_texture(t_cub *cub);
+void	set_direction(t_cub *cub);
+void	set_error(t_cub *cub);
+
+
+void	print_map(t_map *map);
 
 #endif

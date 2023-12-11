@@ -1,7 +1,7 @@
-   		SO ./textures/Birch.png
-NO        ./textures/Jungle.png
-WE ./textures/Oak.png
-EA ./textures/Spruce.png
+   		SO textures/Birch.png
+NO        textures/Jungle.png
+WE textures/Oak.png
+EA textures/Spruce.png
 
 F 220,100,0
 C 225,30,0
