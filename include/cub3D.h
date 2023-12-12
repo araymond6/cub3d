@@ -18,6 +18,11 @@
 #define SCREENHEIGHT 768
 #define PLAYERBOUND 0.2
 
+
+							//rouge
+  		/*  rouge  */	#define MAX_LINES 1000 //ROUGE
+							//rouge
+
 // for defining what to free in case of error
 typedef enum e_error
 {

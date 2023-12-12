@@ -12,7 +12,7 @@ void read_map(t_map *map)
 
 	i = 0;
 	fd = open(map->map_path, O_RDONLY);
-	map->only_map = malloc(sizeof(char *) * 100);
+	map->only_map = malloc(sizeof(char *) * MAX_LINES);
 	if (map->only_map == NULL)
 	{
 		printf("Error\nMemory allocation error\n");

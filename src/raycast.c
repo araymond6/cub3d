@@ -101,5 +101,5 @@ void	main_loop(void *param)
 		select_texture(cub, x);
 		keys_hook(cub);
 	}
-	usleep(5000);
+	usleep(1000);
 }

@@ -12,6 +12,7 @@ void	init_cub(t_cub *cub)
 	cub->v.movespeed = 0.00007;
 	cub->v.rotspeed = 0.00005;
 	set_direction(cub);
+	free_char_array(cub->map.map);
 	cub->map.map = cub->map.only_map;
 	cub->ceiling = get_color(cub->map.c_red, cub->map.c_green, \
 	cub->map.c_blue, 255);
