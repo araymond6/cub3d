@@ -41,14 +41,14 @@ void	parsing(t_map *map)
 	add_zero_map(map);
 	findMapDimensions(map);
 	findPlayerPosition(map);
-	parse_rgb_values(map->f_rgb,map,1);
-	parse_rgb_values(map->c_rgb,map,0);
+	parse_rgb_values(map->f_rgb, map, 1);
+	parse_rgb_values(map->c_rgb, map, 0);
 	test_textures(map);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_cub cub;
+	t_cub	cub;
 
 	ft_bzero(&cub, sizeof(t_cub));
 	if (argc != 2)
@@ -69,4 +69,3 @@ int main(int argc, char **argv)
 	start_mlx(&cub);
 	exit_program(&cub);
 }
-

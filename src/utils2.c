@@ -1,35 +1,27 @@
 #include "../include/cub3D.h"
 
-void	set_direction(t_cub *cub) //TODO: shorten when directions are okay
+// only sets the variable that are NOT zero
+void	set_direction(t_cub *cub)
 {
 	if (cub->map.playerdir == 'N')
 	{
-		cub->v.playerdir[1] = 0;
 		cub->v.playerdir[0] = -1;
-		cub->v.camplane[0] = 0;
 		cub->v.camplane[1] = 0.66;
 	}
 	else if (cub->map.playerdir == 'S')
 	{
-		
-		cub->v.playerdir[1] = 0;
 		cub->v.playerdir[0] = 1;
-		cub->v.camplane[0] = 0;
 		cub->v.camplane[1] = -0.66;
 	}
 	else if (cub->map.playerdir == 'E')
 	{
 		cub->v.playerdir[1] = 1;
-		cub->v.playerdir[0] = 0;
 		cub->v.camplane[0] = 0.66;
-		cub->v.camplane[1] = 0;
 	}
-	else // if west
+	else
 	{
 		cub->v.playerdir[1] = -1;
-		cub->v.playerdir[0] = 0;
 		cub->v.camplane[0] = -0.66;
-		cub->v.camplane[1] = 0;
 	}
 }
 

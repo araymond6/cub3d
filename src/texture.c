@@ -50,13 +50,17 @@ int	**texture_to_array(t_cub *cub, mlx_texture_t *texture)
 void	free_texture(t_cub *cub)
 {
 	if (cub->texture.northarr)
-		free_int_array(cub->texture.northarr, cub->texture.north->width, cub->texture.north->height);
+		free_int_array(cub->texture.northarr, cub->texture.north->width, \
+		cub->texture.north->height);
 	if (cub->texture.southarr)
-		free_int_array(cub->texture.southarr, cub->texture.south->width, cub->texture.south->height);
+		free_int_array(cub->texture.southarr, cub->texture.south->width, \
+		cub->texture.south->height);
 	if (cub->texture.westarr)
-		free_int_array(cub->texture.westarr, cub->texture.west->width, cub->texture.west->height);
+		free_int_array(cub->texture.westarr, cub->texture.west->width, \
+		cub->texture.west->height);
 	if (cub->texture.eastarr)
-		free_int_array(cub->texture.eastarr, cub->texture.east->width, cub->texture.east->height);
+		free_int_array(cub->texture.eastarr, cub->texture.east->width, \
+		cub->texture.east->height);
 	if (cub->texture.north)
 		mlx_delete_texture(cub->texture.north);
 	if (cub->texture.south)
@@ -65,7 +69,6 @@ void	free_texture(t_cub *cub)
 		mlx_delete_texture(cub->texture.west);
 	if (cub->texture.east)
 		mlx_delete_texture(cub->texture.east);
-	ft_bzero(&cub->texture, sizeof(t_texture));
 }
 
 void	init_texture(t_cub *cub)

@@ -3,8 +3,8 @@ NO        textures/whitewall.png
 WE textures/whitewall.png
 EA textures/whitewall.png
 
-F 255,255,255
-C 255,255,255
+F 255,235,240
+C 255,235,240
 
         1111111111111111111111111
         1000000000110000000000001
