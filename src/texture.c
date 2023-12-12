@@ -26,8 +26,8 @@ void	fill_array(mlx_texture_t *texture, int **array)
 
 int	**texture_to_array(t_cub *cub, mlx_texture_t *texture)
 {
-	int	i;
-	int	**array;
+	uint32_t	i;
+	int			**array;
 
 	i = 0;
 	array = ft_calloc(texture->height, sizeof(int *));
@@ -77,8 +77,7 @@ void	init_texture(t_cub *cub)
 	if (!cub->texture.north || !cub->texture.south || !cub->texture.west \
 		|| !cub->texture.east)
 	{
-		free_texture(cub);
-		exit_program(cub);
+		set_error(cub, "Failed to load PNG", MLX_ERROR);
 	}
 	cub->texture.northarr = texture_to_array(cub, cub->texture.north);
 	cub->texture.southarr = texture_to_array(cub, cub->texture.south);
@@ -87,7 +86,6 @@ void	init_texture(t_cub *cub)
 	if (!cub->texture.northarr || !cub->texture.southarr \
 		|| !cub->texture.westarr || !cub->texture.eastarr)
 	{
-		free_texture(cub);
-		exit_program(cub);
+		set_error(cub, "Memory allocation error", MLX_ERROR);
 	}
 }

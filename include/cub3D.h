@@ -18,7 +18,14 @@
 #define SCREENHEIGHT 768
 #define PLAYERBOUND 0.2
 
-// all variables used throughout raycasting, movement and rotation
+// for defining what to free in case of error
+typedef enum e_error
+{
+	MAP_ERROR, // frees map only
+	MLX_ERROR // frees cub + map and textures if needed
+}	t_error;
+
+// all variables used throughout raycasting, movement, rotation and direction
 typedef struct s_var
 {
 	double		pos[2];
@@ -50,8 +57,6 @@ typedef struct s_texture
 	mlx_texture_t	*south;
 	mlx_texture_t	*west;
 	mlx_texture_t	*east;
-
-	// used for placing the texture pixels on the appropriate wall
 	int				**northarr;
 	int				**southarr;
 	int				**westarr;
@@ -69,11 +74,11 @@ typedef struct s_map
 	int		map_width;
 	char	playerdir;
 
+	char	*map_path;
 	char	*NO_path;
 	char	*SO_path;
 	char	*WE_path;
 	char	*EA_path;
-	char	*map_path;
 
 	char	*f_rgb;
 	char	*c_rgb;
@@ -87,15 +92,14 @@ typedef struct s_map
 	int		c_blue;
 
 	int		start_map_index;
-	int		error;
 } t_map;
 
 typedef struct s_cub
 {
 	mlx_t				*mlx;
 	mlx_image_t			*img;
-	uint32_t			ceiling; //ceiling color
-	uint32_t			floor; // floor color
+	uint32_t			ceiling;
+	uint32_t			floor;
 	struct s_var		v;
 	struct s_texture	texture;
 	struct s_map		map;
@@ -125,18 +129,19 @@ void	findMapDimensions(t_map *map);
 void	init_cub(t_cub *cub);
 void	free_int_array(int **arr, int x, int y);
 void	free_char_array(char **arr);
+void	free_all(t_cub *cub);
+void	free_map(t_map *map);
+void	free_texture(t_cub *cub);
 void	exit_program(t_cub *cub);
 int		get_color(int r, int g, int b, int a);
 int		ft_strcmp(const char *str1, const char *str2);
 char	*ft_strtok(char *str, const char *delimiters);
 void	add_zero_map(t_map *map);
-void	free_map(t_map *map);
-void	free_texture(t_cub *cub);
 void	set_direction(t_cub *cub);
-void	set_error(t_cub *cub);
+void	set_error(void *param, char *error_message, t_error error_type);
 int		check_path(char *path);
+int		check_extension(char *path, char *extension);
 
-
-void	print_map(t_map *map);
+void	print_map(t_map *map); //TODO: Remove when done testing
 
 #endif

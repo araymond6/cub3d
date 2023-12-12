@@ -37,6 +37,7 @@ void	close_hook(void *param)
 {
 	t_cub	*cub;
 
+	cub = NULL;
 	if (param)
 		cub = param;
 	exit_program(cub);
@@ -63,6 +64,7 @@ void	free_int_array(int **arr, int x, int y)
 {
 	int	i;
 
+	(void)x;
 	i = 0;
 	if (arr)
 	{
@@ -76,8 +78,23 @@ void	free_int_array(int **arr, int x, int y)
 	}
 }
 
-void	set_error(t_cub *cub)
+void	set_error(void *param, char *error_message, t_error error_type)
 {
-	cub->map.error = 1;
-	exit_program(cub);
+	t_cub	*cub;
+	t_map	*map;
+
+	(void)cub;
+	(void)map;
+	printf("Error\n%s\n", error_message);
+	if (error_type == MAP_ERROR)
+	{
+		map = param;
+		free_map(map);
+	}
+	else if (error_type == MLX_ERROR)
+	{
+		cub = param;
+		free_all(cub);
+	}
+	exit(EXIT_FAILURE);
 }

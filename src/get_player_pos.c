@@ -7,8 +7,8 @@ void findMapDimensions(t_map *map)
 
 		while (map->only_map[i] != NULL) 
 		{
-		if(ft_strlen(map->only_map[i]) >= j)
-			j = ft_strlen(map->only_map[i]);
+		if((int)ft_strlen(map->only_map[i]) >= j)
+			j = (int)ft_strlen(map->only_map[i]);
 			++i;
 		}
 		map->map_height = i-1;
@@ -34,16 +34,11 @@ void findPlayerPosition(t_map *map)
 				currentCell == 'S' || currentCell == 'W')
 			{
 				if (found == 1)
-				{
-					printf("Error\nMultiple player positions found\n");
-					free_map(map);
-					exit(EXIT_FAILURE);
-				}
+					set_error(map, "Multiple player positions found", MAP_ERROR);
 				map->playerdir = currentCell;
 				map->only_map[i][j] = '0';
 				map->player_pos_x = i;
 				map->player_pos_y = j;
-				printf("x: %d y: %d\n", map->player_pos_x, map->player_pos_y);
 				found = 1;
 			}
 			++j;
@@ -51,9 +46,5 @@ void findPlayerPosition(t_map *map)
 		++i;
 	}
 	if (found != 1)
-	{
-		printf("Error\nNo player position found\n");
-		free_map(map);
-		exit(EXIT_FAILURE);
-	}
+		set_error(map, "No player position found", MAP_ERROR);
 }

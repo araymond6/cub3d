@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 13:06:45 by araymond          #+#    #+#             */
-/*   Updated: 2023/10/26 14:59:46 by araymond         ###   ########.fr       */
+/*   Updated: 2023/12/12 14:44:03 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+// LIBFT FUNCTIONS
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
@@ -71,5 +72,8 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+// AND MORE
+int		ft_isspace(int c);
 
 #endif

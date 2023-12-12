@@ -58,3 +58,30 @@ int ft_strcmp(const char *str1, const char *str2)
 		return 1;
 	}
 }
+
+int	check_extension(char *path, char *extension)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	if (!path || !extension)
+		return (-1);
+	while (path[i])
+		i++;
+	while (extension[j])
+		j++;
+	j--;
+	i--;
+	while (j >= 0)
+	{
+		if (path[i] != extension[j])
+		{
+			return (-1);
+		}
+		i--;
+		j--;
+	}
+	return (0);
+}
