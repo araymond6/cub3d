@@ -12,13 +12,13 @@ void	check_map_args(t_map *s_map)
 	fd = open(s_map->map_path, O_RDONLY);
 	if (fd == -1)
 	{
-		perror("Error opening file");
+		printf("Error\nUnable to open %s/n", s_map->map_path);
 		exit(EXIT_FAILURE);
 	}
 	s_map->map = malloc(sizeof(char *) * MAX_LINES);
 	if (s_map->map == NULL)
 	{
-		perror("Memory allocation error");
+		printf("Error\nMemory allocation error\n");
 		exit(EXIT_FAILURE);
 	}
 	s_map->map[i] = get_next_line(fd);
@@ -49,11 +49,11 @@ char	*trim_spaces(char *str)
 void set_texture_path(char **dest, char *token, char *path_name, t_map *s_map)
 {
     free(*dest);
-    *dest = trim_texture_path(token);
+    *dest = trim_texture_path(s_map, token);
 
     if (*dest == NULL)
     {
-        perror("Error getting path");
+        printf("Error\nUnable to get path\n");
         exit(EXIT_FAILURE);
     }
 }
@@ -95,21 +95,17 @@ void get_texture_path(t_map *s_map)
 }
 
 
-char	*trim_texture_path(char *texture_path)
+char	*trim_texture_path(t_map *s_map, char *texture_path)
 {
 	int i = 0;
 	int j = 0;
-
-	if (texture_path[i] == '\0')
-	{
-		perror("Dot not found in texture path");
-		return (NULL);
-	}
-	char *clean_path = malloc(ft_strlen(texture_path) - i + 1);
-
+	char *clean_path;
+	
+	clean_path = malloc(ft_strlen(texture_path) - i + 1);
 	if (clean_path == NULL)
 	{
-		perror("Memory allocation error in trim_texture_path");
+		printf("Error\nMemory allocation error\n");
+		free_map(s_map);
 		exit(EXIT_FAILURE);
 	}
 	while (texture_path[i])

@@ -65,15 +65,11 @@ void	free_texture(t_cub *cub)
 		mlx_delete_texture(cub->texture.west);
 	if (cub->texture.east)
 		mlx_delete_texture(cub->texture.east);
+	ft_bzero(&cub->texture, sizeof(t_texture));
 }
 
 void	init_texture(t_cub *cub)
 {
-	printf("%s\n", cub->map.NO_path);
-	printf("%s\n", cub->map.SO_path);
-	printf("%s\n", cub->map.WE_path);
-	printf("%s\n", cub->map.EA_path);
-
 	cub->texture.north = mlx_load_png(cub->map.NO_path);
 	cub->texture.south = mlx_load_png(cub->map.SO_path);
 	cub->texture.west = mlx_load_png(cub->map.WE_path);
@@ -84,7 +80,6 @@ void	init_texture(t_cub *cub)
 		free_texture(cub);
 		exit_program(cub);
 	}
-	
 	cub->texture.northarr = texture_to_array(cub, cub->texture.north);
 	cub->texture.southarr = texture_to_array(cub, cub->texture.south);
 	cub->texture.westarr = texture_to_array(cub, cub->texture.west);

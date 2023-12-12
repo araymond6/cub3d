@@ -17,6 +17,7 @@ SRCS =	main.c \
 		parsing.c \
 		utils_parsing.c \
 		get_rgb_value.c \
+		get_player_pos.c \
 		get_map.c \
 		raycast.c \
 		raycast2.c \
@@ -90,7 +91,7 @@ fclean: clean
 	rm -rf $(BUILD_DIR)
 	make fclean -C $(LIB_DIR)
 
-valgrind: 
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes ./$(NAME)
+val: 
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes ./$(NAME) maps/example.cub
 
-.PHONY: re debug fclean clean all run mlx dep valgrind 
+.PHONY: re debug fclean clean all run mlx dep val

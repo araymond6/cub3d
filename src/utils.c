@@ -4,17 +4,16 @@ void	free_all(t_cub *cub);
 
 void	init_cub(t_cub *cub)
 {
-	cub->v.pos[0] = (double)5 / 8 + 0.5;
-	cub->v.pos[1] = (double)5 / 8 + 0.5;
+	cub->v.pos[0] = (double)cub->map.player_pos_x + 0.5;
+	cub->v.pos[1] = (double)cub->map.player_pos_y + 0.5;
+	printf("x: %d y: %d\n", cub->map.player_pos_x, cub->map.player_pos_y);
 	cub->v.step[0] = 1;
 	cub->v.step[1] = 1;
 	cub->v.camangle = 0.5;
-
-	// to update accordingly when parsing is complete
 	set_direction(cub);
-
+	cub->map.map = cub->map.only_map;
 	cub->v.movespeed = 0.00007;
-	cub->v.rotspeed = 0.00006;
+	cub->v.rotspeed = 0.00005;
 	cub->ceiling = get_color(cub->map.c_red, cub->map.c_green, \
 	cub->map.c_blue, 255);
 	cub->floor = get_color(cub->map.f_red, cub->map.f_green, \
@@ -23,9 +22,16 @@ void	init_cub(t_cub *cub)
 
 void	exit_program(t_cub *cub)
 {
-	if (cub->error == 1)
-		printf("Error.");
-	free_all(cub);
+	if (cub)
+	{
+		if (cub->map.error == 1)
+		{
+			printf("Error\n");
+			free_all(cub);
+			exit(1);
+		}
+			free_all(cub);
+	}
 	exit(0);
 }
 
@@ -56,3 +62,16 @@ int	get_color(int r, int g, int b, int a)
 	return (r << 24 | g << 16 | b << 8 | a);
 }
 
+int	check_path(char *path)
+{
+	int	fd;
+
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
+	{
+		printf("Error\nUnable to open %s\n", path);
+		return (-1);
+	}
+	close(fd);
+	return (0);
+}

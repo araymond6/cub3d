@@ -6,29 +6,30 @@ void	set_direction(t_cub *cub) //TODO: shorten when directions are okay
 	{
 		cub->v.playerdir[1] = 0;
 		cub->v.playerdir[0] = -1;
-		cub->v.camplane[0] = -0.66;
-		cub->v.camplane[1] = 0;
+		cub->v.camplane[0] = 0;
+		cub->v.camplane[1] = 0.66;
 	}
 	else if (cub->map.playerdir == 'S')
 	{
+		
 		cub->v.playerdir[1] = 0;
 		cub->v.playerdir[0] = 1;
-		cub->v.camplane[0] = 0.66;
-		cub->v.camplane[1] = 0;
+		cub->v.camplane[0] = 0;
+		cub->v.camplane[1] = -0.66;
 	}
 	else if (cub->map.playerdir == 'E')
 	{
 		cub->v.playerdir[1] = 1;
 		cub->v.playerdir[0] = 0;
-		cub->v.camplane[0] = 0;
-		cub->v.camplane[1] = 0.66;
+		cub->v.camplane[0] = 0.66;
+		cub->v.camplane[1] = 0;
 	}
 	else // if west
 	{
 		cub->v.playerdir[1] = -1;
 		cub->v.playerdir[0] = 0;
-		cub->v.camplane[0] = 0;
-		cub->v.camplane[1] = -0.66;
+		cub->v.camplane[0] = -0.66;
+		cub->v.camplane[1] = 0;
 	}
 }
 
@@ -77,6 +78,6 @@ void	free_int_array(int **arr, int x, int y)
 
 void	set_error(t_cub *cub)
 {
-	cub->error = 1;
+	cub->map.error = 1;
 	exit_program(cub);
 }

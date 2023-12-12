@@ -72,6 +72,7 @@ void	dda(t_cub *cub)
 {
 	while (1)
 	{
+		//printf("map: %c\n", cub->map.map[(int)cub->v.map[0]][(int)cub->v.map[1]]);
 		if (cub->map.map[(int)cub->v.map[0]][(int)cub->v.map[1]] == '1')
 			break ;
 		else

@@ -14,8 +14,8 @@
 # include <ctype.h>
 # include <string.h>
 
-#define SCREENWIDTH 640
-#define SCREENHEIGHT 480
+#define SCREENWIDTH 1024
+#define SCREENHEIGHT 768
 #define PLAYERBOUND 0.2
 
 // all variables used throughout raycasting, movement and rotation
@@ -63,7 +63,6 @@ typedef struct s_map
 {
 	char	**map;
 	char	**only_map;
-	char	*map_path;
 	int		player_pos_x;
 	int		player_pos_y;
 	int		map_height;
@@ -74,6 +73,7 @@ typedef struct s_map
 	char	*SO_path;
 	char	*WE_path;
 	char	*EA_path;
+	char	*map_path;
 
 	char	*f_rgb;
 	char	*c_rgb;
@@ -87,7 +87,7 @@ typedef struct s_map
 	int		c_blue;
 
 	int		start_map_index;
-	
+	int		error;
 } t_map;
 
 typedef struct s_cub
@@ -99,7 +99,6 @@ typedef struct s_cub
 	struct s_var		v;
 	struct s_texture	texture;
 	struct s_map		map;
-	int					error;
 }	t_cub;
 
 
@@ -116,9 +115,11 @@ void	init_texture(t_cub *cub);
 //parsing functions
 void	check_map_args(t_map *map);
 void	get_texture_path(t_map *s_map);
-char	*trim_texture_path(char *texture_path);
+char	*trim_texture_path(t_map *s_map, char *texture_path);
 int		parse_rgb_values(const char *rgbString, t_map *map, int isFloor);
 void	read_map(t_map *map);
+void	findPlayerPosition(t_map *map);
+void	findMapDimensions(t_map *map);
 
 // all utils
 void	init_cub(t_cub *cub);
@@ -128,10 +129,12 @@ void	exit_program(t_cub *cub);
 int		get_color(int r, int g, int b, int a);
 int		ft_strcmp(const char *str1, const char *str2);
 char	*ft_strtok(char *str, const char *delimiters);
+void	add_zero_map(t_map *map);
 void	free_map(t_map *map);
 void	free_texture(t_cub *cub);
 void	set_direction(t_cub *cub);
 void	set_error(t_cub *cub);
+int		check_path(char *path);
 
 
 void	print_map(t_map *map);

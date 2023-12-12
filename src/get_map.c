@@ -13,10 +13,10 @@ void read_map(t_map *map)
 
     i = 0;
     fd = open(map->map_path, O_RDONLY);
-    map->only_map = malloc(sizeof(char *) * 10000);
+    map->only_map = malloc(sizeof(char *) * 100);
     if (map->only_map == NULL)
     {
-        perror("Memory allocation error");
+        printf("Error\nMemory allocation error\n");
         exit(EXIT_FAILURE);
     }
     while ((line = get_next_line(fd)) != NULL)
@@ -31,7 +31,6 @@ void read_map(t_map *map)
     }
     map->only_map[i] = NULL;
     close(fd);
-   //print_map(map);
 }
 
 void print_map(t_map *map)
@@ -54,4 +53,26 @@ void free_map(t_map *map)
         free(map->only_map[i]);
     }
     free(map->only_map);
+}
+void add_zero_map(t_map *map)
+{
+    int i;
+    int j;
+
+    i = 0;
+    j = 0;
+    
+    while(map->only_map[i])
+    {
+        j = 0;
+        while(map->only_map[i][j])
+        {
+            if(map->only_map[i][j] == ' ')
+            {
+                map->only_map[i][j] = '0';
+            }
+            j++;
+        }
+        i++;
+    }
 }
