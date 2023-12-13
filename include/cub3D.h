@@ -154,5 +154,8 @@ void	add_zero_map(t_map *map);
 void	flood_fill(t_map *map, int x, int y);
 void	print_map(char **map);
 void	set_paths(t_map *s_map, char *token, int i);
+void	add_zero_map(t_map *map);
+void	flood_fill(t_map *map, int x, int y);
+void	print_map(char **map);
 
 #endif
