@@ -129,6 +129,8 @@ int		parse_rgb_values(const char *rgbString, t_map *map, int isFloor);
 void	read_map(t_map *map);
 void	findPlayerPosition(t_map *map);
 void	findMapDimensions(t_map *map);
+void	set_texture_path(char **dest, char *token, t_map *s_map);
+void	check_wall(t_map *map, char **only_map, int x, int y);
 
 // all utils
 void	init_cub(t_cub *cub);
@@ -148,9 +150,9 @@ int		check_path(char *path);
 int		check_extension(char *path, char *extension);
 void	check_params(t_map *map); // used to check if all params are present
 
-void	print_map(t_map *map); //TODO: Remove when done testing
 void	add_zero_map(t_map *map);
 void	flood_fill(t_map *map, int x, int y);
 void	print_map(char **map);
+void	set_paths(t_map *s_map, char *token, int i);
 
 #endif

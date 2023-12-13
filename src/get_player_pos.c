@@ -7,11 +7,11 @@ void findMapDimensions(t_map *map)
 
 		while (map->only_map[i] != NULL) 
 		{
-		if((int)ft_strlen(map->only_map[i]) >= j)
-			j = (int)ft_strlen(map->only_map[i]);
+			if ((int)ft_strlen(map->only_map[i]) >= j)
+				j = (int)ft_strlen(map->only_map[i]);
 			++i;
 		}
-		map->map_height = i-1;
+		map->map_height = i;
 		map->map_width = j;
 }
 

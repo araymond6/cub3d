@@ -17,6 +17,7 @@ void	set_data(t_cub *cub, int x)
 	cub->v.deltadist[1] = fabs(1 / cub->v.raydir[1]);
 }
 
+// prepares the necessary information for the DDA algorithm
 void	set_side_dist(t_cub *cub)
 {
 	if (cub->v.raydir[0] < 0)
