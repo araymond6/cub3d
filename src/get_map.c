@@ -100,9 +100,7 @@ void flood_fill(t_map *map, int x, int y)
     
     for (int i = 0; i < map->map_height; i++) 
     {
-        // Allocate memory for each row including extra '0' characters
         duped_map[i] = malloc((map->map_width + 1) * sizeof(char));
-
         if (duped_map[i] == NULL) 
         {
             printf("Memory allocation error in row %d.\n", i);
@@ -130,18 +128,12 @@ void flood_fill(t_map *map, int x, int y)
                 duped_map[i][j] = '0';
             }
         }
-
-        // Null-terminate the row
         duped_map[i][map->map_width] = '\0';
     }
-    
-    // Null-terminate the array
     duped_map[map->map_height] = NULL;
 
     algo_parsing(duped_map, x, y, map->map_height, map->map_width);
     print_map(duped_map);
-
-    // Free allocated memory
     for (int i = 0; i < map->map_height; ++i) 
     {
         free(duped_map[i]);
