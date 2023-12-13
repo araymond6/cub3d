@@ -67,21 +67,26 @@ void	check_params(t_map *map)
 	}
 }
 
-void algo_parsing(char **map, int x, int y, int map_height, int map_width) 
+void algo_parsing(t_map *map, char **only_map, int x, int y) 
 {
-    if (x < 0 || y < 0 || x >= map_height || y >= map_width || map[x][y] != '0') {
-        return;
-    }
-
-    map[x][y] = 'A';
-    if(map[x][y+1] == '\n' || x == 0 || y == 0 || x == map_height-1) 
-        printf("error1");
-    else if(map[x-1][y]== ' ' || map[x+1][y] == ' ' || map[x][y-1] == ' ' || map[x][y+1] == ' ')
-        printf("error2");
-    algo_parsing(map, x + 1, y, map_height, map_width);
-    algo_parsing(map, x, y + 1, map_height, map_width);
-    algo_parsing(map, x - 1, y, map_height, map_width);
-    algo_parsing(map, x, y - 1, map_height, map_width);
+	if (x < 0 || y < 0 || x >= map->map_height || y >= map->map_width || only_map[x][y] != '0') {
+		return;
+	}
+	only_map[x][y] = 'A';
+	if(only_map[x][y+1] == '\n' || x == 0 || y == 0 || x == map->map_height-1)
+	{
+		free_char_array(only_map);
+		set_error(map, "Map is not closed", MAP_ERROR);
+	}
+	else if(only_map[x-1][y]== ' ' || only_map[x+1][y] == ' ' || only_map[x][y-1] == ' ' || only_map[x][y+1] == ' ')
+	{
+		free_char_array(only_map);
+		set_error(map, "Map is not closed 2", MAP_ERROR);
+	}
+	algo_parsing(map, only_map, x + 1, y);
+	algo_parsing(map, only_map, x, y + 1);
+	algo_parsing(map, only_map, x - 1, y);
+	algo_parsing(map, only_map, x, y - 1);
 }
 
 void flood_fill(t_map *map, int x, int y) 
@@ -128,8 +133,7 @@ void flood_fill(t_map *map, int x, int y)
     // Null-terminate the array
     duped_map[map->map_height] = NULL;
 
-    algo_parsing(duped_map, x, y, map->map_height, map->map_width);
-    print_map(duped_map);
+    algo_parsing(map, duped_map, x, y);
 
     // Free allocated memory
     for (int i = 0; i < map->map_height; ++i) 
