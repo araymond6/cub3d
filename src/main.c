@@ -41,6 +41,7 @@ void	parsing(t_map *map)
 	add_zero_map(map);
 	findMapDimensions(map);
 	findPlayerPosition(map);
+	flood_fill(&map, map->player_pos_x, map->player_pos_y);
 	parse_rgb_values(map->f_rgb, map, 1);
 	parse_rgb_values(map->c_rgb, map, 0);
 	test_textures(map);

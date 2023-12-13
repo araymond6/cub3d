@@ -149,5 +149,8 @@ int		check_extension(char *path, char *extension);
 void	check_params(t_map *map); // used to check if all params are present
 
 void	print_map(t_map *map); //TODO: Remove when done testing
+void	add_zero_map(t_map *map);
+void	flood_fill(t_map *map, int x, int y);
+void	print_map(char **map);
 
 #endif
