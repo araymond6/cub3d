@@ -20,6 +20,7 @@ SRCS =	main.c \
 		utils_parsing.c \
 		get_rgb_value.c \
 		get_map.c \
+		get_player_pos.c \
 		raycast.c \
 		raycast2.c \
 		movement.c \

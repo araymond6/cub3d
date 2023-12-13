@@ -22,6 +22,9 @@ int main()
 	check_map_args(&map);
 	get_texture_path(&map);
 	read_map(&map);
+	findMapDimensions(&map);
+	findPlayerPosition(&map);
+	flood_fill(&map, map.player_pos_x, map.player_pos_y);
 	add_zero_map(&map);
 
 	//check rgb values for ceiling and floor
