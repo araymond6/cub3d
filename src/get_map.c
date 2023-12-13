@@ -32,27 +32,6 @@ void read_map(t_map *map)
 	close(fd);
 }
 
-void print_map(t_map *map)
-{
-    printf("Printing map...\n");
-
-    if (map->only_map == NULL) {
-        printf("map->only_map is NULL\n");
-        return;
-    }
-    for (int i = 0; map->only_map[i] != NULL; i++)
-    {
-        printf("map %i : %s\n", i,  map->only_map[i]);
-    }
-}
-void free_map(t_map *map)
-{
-    for (int i = 0; map->only_map[i] != NULL; i++)
-    {
-        free(map->only_map[i]);
-    }
-    free(map->only_map);
-}
 void add_zero_map(t_map *map)
 {
     int i;
@@ -74,4 +53,17 @@ void add_zero_map(t_map *map)
         }
         i++;
     }
+}
+
+void	check_params(t_map *map)
+{
+	if (map->NO_path == NULL || \
+		map->SO_path == NULL || \
+		map->WE_path == NULL || \
+		map->EA_path == NULL || \
+		map->c_rgb == NULL || \
+		map->f_rgb == NULL)
+	{
+		set_error(map, "Incorrect parameters", MAP_ERROR);
+	}
 }

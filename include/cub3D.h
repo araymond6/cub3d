@@ -146,6 +146,7 @@ void	set_direction(t_cub *cub);
 void	set_error(void *param, char *error_message, t_error error_type);
 int		check_path(char *path);
 int		check_extension(char *path, char *extension);
+void	check_params(t_map *map); // used to check if all params are present
 
 void	print_map(t_map *map); //TODO: Remove when done testing
 

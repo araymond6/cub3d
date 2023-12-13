@@ -85,3 +85,27 @@ int	check_extension(char *path, char *extension)
 	}
 	return (0);
 }
+
+void free_map(t_map *map)
+{
+	if (map->only_map)
+	for (int i = 0; map->only_map[i] != NULL; i++)
+	{
+		free(map->only_map[i]);
+	}
+	free(map->only_map);
+}
+
+void print_map(t_map *map)
+{
+	printf("Printing map...\n");
+
+	if (map->only_map == NULL) {
+		printf("map->only_map is NULL\n");
+		return;
+	}
+	for (int i = 0; map->only_map[i] != NULL; i++)
+	{
+		printf("map %i : %s\n", i,  map->only_map[i]);
+	}
+}
