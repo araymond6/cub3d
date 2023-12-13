@@ -14,11 +14,23 @@
 # include <ctype.h>
 # include <string.h>
 
-#define SCREENWIDTH 640
-#define SCREENHEIGHT 480
+#define SCREENWIDTH 1024
+#define SCREENHEIGHT 768
 #define PLAYERBOUND 0.2
 
-// all variables used throughout raycasting, movement and rotation
+
+							//rouge
+  		/*  rouge  */	#define MAX_LINES 1000 //ROUGE
+							//rouge
+
+// for defining what to free in case of error
+typedef enum e_error
+{
+	MAP_ERROR, // frees map only
+	MLX_ERROR // frees cub + map and textures if needed
+}	t_error;
+
+// all variables used throughout raycasting, movement, rotation and direction
 typedef struct s_var
 {
 	double		pos[2];
@@ -50,8 +62,6 @@ typedef struct s_texture
 	mlx_texture_t	*south;
 	mlx_texture_t	*west;
 	mlx_texture_t	*east;
-
-	// used for placing the texture pixels on the appropriate wall
 	int				**northarr;
 	int				**southarr;
 	int				**westarr;
@@ -61,41 +71,40 @@ typedef struct s_texture
 // parsing struct
 typedef struct s_map
 {
-	char **map;
+	char	**map;
 	char	**only_map;
-	char	*map_path;
 	int		player_pos_x;
 	int		player_pos_y;
 	int		map_height;
 	int		map_width;
 	char	playerdir;
 
-	char *NO_path;
-	char *SO_path;
-	char *WE_path;
-	char *EA_path;
+	char	*map_path;
+	char	*NO_path;
+	char	*SO_path;
+	char	*WE_path;
+	char	*EA_path;
 
-	char *f_rgb;
-	char *c_rgb;
+	char	*f_rgb;
+	char	*c_rgb;
 
-	int f_red;
-	int f_green;
-	int f_blue;
+	int		f_red;
+	int		f_green;
+	int		f_blue;
 
-	int c_red;
-	int c_green;
-	int c_blue;
+	int		c_red;
+	int		c_green;
+	int		c_blue;
 
-	int start_map_index;
-	
+	int		start_map_index;
 } t_map;
 
 typedef struct s_cub
 {
 	mlx_t				*mlx;
 	mlx_image_t			*img;
-	uint32_t			ceiling; //ceiling color
-	uint32_t			floor; // floor color
+	uint32_t			ceiling;
+	uint32_t			floor;
 	struct s_var		v;
 	struct s_texture	texture;
 	struct s_map		map;
@@ -112,28 +121,41 @@ void	set_draw_range(t_cub *cub);
 void	main_loop(void *param);
 void	init_texture(t_cub *cub);
 
-void	fill_map(t_cub *cub); // TODO: REMOVE WHEN PARSING DONE
-
 //parsing functions
 void	check_map_args(t_map *map);
 void	get_texture_path(t_map *s_map);
-char	*trim_texture_path(char *texture_path);
+char	*trim_texture_path(t_map *s_map, char *texture_path);
 int		parse_rgb_values(const char *rgbString, t_map *map, int isFloor);
 void	read_map(t_map *map);
-void findMapDimensions(t_map *map);
-void findPlayerPosition(t_map *map);
+void	findPlayerPosition(t_map *map);
+void	findMapDimensions(t_map *map);
+void	set_texture_path(char **dest, char *token, t_map *s_map);
+void	check_wall(t_map *map, char **only_map, int x, int y);
 
 // all utils
 void	init_cub(t_cub *cub);
 void	free_int_array(int **arr, int x, int y);
 void	free_char_array(char **arr);
+void	free_all(t_cub *cub);
+void	free_map(t_map *map);
+void	free_texture(t_cub *cub);
 void	exit_program(t_cub *cub);
 int		get_color(int r, int g, int b, int a);
 int		ft_strcmp(const char *str1, const char *str2);
 char	*ft_strtok(char *str, const char *delimiters);
-void add_zero_map(t_map *map);
-void flood_fill(t_map *map, int x, int y);
-void print_map(char **map);
-int isMapSurrounded(char **map, int rows, int cols);
+void	add_zero_map(t_map *map);
+void	set_direction(t_cub *cub);
+void	set_error(void *param, char *error_message, t_error error_type);
+int		check_path(char *path);
+int		check_extension(char *path, char *extension);
+void	check_params(t_map *map); // used to check if all params are present
+
+void	add_zero_map(t_map *map);
+void	flood_fill(t_map *map, int x, int y);
+void	print_map(char **map);
+void	set_paths(t_map *s_map, char *token, int i);
+void	add_zero_map(t_map *map);
+void	flood_fill(t_map *map, int x, int y);
+void	print_map(char **map);
 
 #endif

@@ -8,6 +8,8 @@ int	parse_rgb_values(const char *rgbString, t_map *map, int isFloor)
 	int *color[3]; // red/green/blue
 
 	copy = ft_strdup(rgbString);
+	if (!copy)
+		set_error(map, "Memory allocation error", MAP_ERROR);
 	count = 0;
 	token = ft_strtok(copy, ",");
 	while (token != NULL && count < 3)

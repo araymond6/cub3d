@@ -1,5 +1,4 @@
 #include "../include/cub3D.h"
-#define MAX_LINES 100
 
 void	check_map_args(t_map *s_map)
 {
@@ -12,13 +11,14 @@ void	check_map_args(t_map *s_map)
 	fd = open(s_map->map_path, O_RDONLY);
 	if (fd == -1)
 	{
-		perror("Error opening file");
+		printf("Error\nUnable to open %s\n", s_map->map_path);
 		exit(EXIT_FAILURE);
 	}
 	s_map->map = malloc(sizeof(char *) * MAX_LINES);
 	if (s_map->map == NULL)
 	{
-		perror("Memory allocation error");
+		close(fd);
+		printf("Error\nMemory allocation error\n");
 		exit(EXIT_FAILURE);
 	}
 	s_map->map[i] = get_next_line(fd);
@@ -33,12 +33,12 @@ char	*trim_spaces(char *str)
 {
 	char	*end;
 
-	while (isspace(*str))
+	while (ft_isspace(*str))
 	{
 		str++;
 	}
-	end = str + strlen(str) - 1;
-	while (end > str && isspace(*end))
+	end = str + ft_strlen(str) - 1;
+	while (end > str && ft_isspace(*end))
 	{
 		end--;
 	}
@@ -46,41 +46,39 @@ char	*trim_spaces(char *str)
 	return (str);
 }
 
-void set_texture_path(char **dest, char *token, char *path_name, t_map *s_map)
+void set_texture_path(char **dest, char *token, t_map *s_map)
 {
-    free(*dest);
-    *dest = trim_texture_path(token);
+	free(*dest);
+	*dest = trim_texture_path(s_map, token);
 
-    if (*dest == NULL)
-    {
-        perror("Error getting path");
-        exit(EXIT_FAILURE);
-    }
+	if (*dest == NULL)
+	{
+		set_error(s_map, "Unable to get path", MAP_ERROR);
+	}
 }
 
 void get_texture_path(t_map *s_map)
 {
-    int i = 0;
-	s_map->EA_path = NULL;
-	s_map->NO_path = NULL;
-	s_map->WE_path = NULL;
-	s_map->SO_path = NULL;
-	s_map->start_map_index = 0;
-    while (s_map->map[i])
-    {
-        char *line = trim_spaces(s_map->map[i]);
-        char *token = ft_strtok(line, " ");
+	int		i;
+	char	*line;
+	char	*token;
 
-        while (token != NULL)
-        {
-            if (ft_strcmp(token, "NO") == 0)
-                set_texture_path(&s_map->NO_path, ft_strtok(NULL, " "), "NO", s_map);
-            else if (ft_strcmp(token, "SO") == 0)
-                set_texture_path(&s_map->SO_path, ft_strtok(NULL, " "), "SO", s_map);
-            else if (ft_strcmp(token, "WE") == 0)
-                set_texture_path(&s_map->WE_path, ft_strtok(NULL, " "), "WE", s_map);
-            else if (ft_strcmp(token, "EA") == 0)
-                set_texture_path(&s_map->EA_path, ft_strtok(NULL, " "), "EA", s_map);
+	i = 0;
+	while (s_map->map[i])
+	{
+		line = trim_spaces(s_map->map[i]);
+		token = ft_strtok(line, " ");
+
+		while (token != NULL)
+		{
+			if (ft_strcmp(token, "NO") == 0)
+				set_texture_path(&s_map->NO_path, ft_strtok(NULL, " "), s_map);
+			else if (ft_strcmp(token, "SO") == 0)
+				set_texture_path(&s_map->SO_path, ft_strtok(NULL, " "), s_map);
+			else if (ft_strcmp(token, "WE") == 0)
+				set_texture_path(&s_map->WE_path, ft_strtok(NULL, " "), s_map);
+			else if (ft_strcmp(token, "EA") == 0)
+				set_texture_path(&s_map->EA_path, ft_strtok(NULL, " "), s_map);
 			else if(ft_strcmp(token,"F") == 0)
 				s_map->f_rgb = (ft_strtok(NULL," "));
 			else if(ft_strcmp(token,"C") == 0)
@@ -88,29 +86,25 @@ void get_texture_path(t_map *s_map)
 			else if(s_map->c_rgb != NULL && s_map->f_rgb != NULL && s_map->NO_path != NULL && s_map->SO_path != NULL 
 				&& s_map->WE_path != NULL && s_map->EA_path != NULL && s_map->start_map_index == 0)
 					s_map->start_map_index = i;
-            token = ft_strtok(NULL, " ");
-        }
-        i++;
-    }
+			token = ft_strtok(NULL, " ");
+			// set_paths(s_map, token, i); //TODO: shorten this thing with this
+		}
+		i++;
+	}
+	check_params(s_map); // used to check if params exist
 }
 
 
-char	*trim_texture_path(char *texture_path)
+char	*trim_texture_path(t_map *s_map, char *texture_path)
 {
 	int i = 0;
 	int j = 0;
-
-	if (texture_path[i] == '\0')
-	{
-		perror("Dot not found in texture path");
-		return (NULL);
-	}
-	char *clean_path = malloc(ft_strlen(texture_path) - i + 1);
-
+	char *clean_path;
+	
+	clean_path = malloc(ft_strlen(texture_path) - i + 1);
 	if (clean_path == NULL)
 	{
-		perror("Memory allocation error in trim_texture_path");
-		exit(EXIT_FAILURE);
+		set_error(s_map, "Memory allocation error", MAP_ERROR);
 	}
 	while (texture_path[i])
 	{

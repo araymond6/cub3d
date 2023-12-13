@@ -1,6 +1,9 @@
 #include "../include/cub3D.h"
 
-// sets and normalises ray directon, floored map position and the distance needed by the ray for each step it takes (deltadist)
+/*
+	sets and normalises ray directon, floored map position and the distance 
+	needed by the ray for each step it takes (deltadist)
+*/ 
 void	set_data(t_cub *cub, int x)
 {
 	cub->v.camera = 2 * x / (double)SCREENWIDTH - 1;
@@ -14,7 +17,7 @@ void	set_data(t_cub *cub, int x)
 	cub->v.deltadist[1] = fabs(1 / cub->v.raydir[1]);
 }
 
-
+// prepares the necessary information for the DDA algorithm
 void	set_side_dist(t_cub *cub)
 {
 	if (cub->v.raydir[0] < 0)

@@ -26,8 +26,8 @@ void	fill_array(mlx_texture_t *texture, int **array)
 
 int	**texture_to_array(t_cub *cub, mlx_texture_t *texture)
 {
-	int	i;
-	int	**array;
+	uint32_t	i;
+	int			**array;
 
 	i = 0;
 	array = ft_calloc(texture->height, sizeof(int *));
@@ -50,13 +50,17 @@ int	**texture_to_array(t_cub *cub, mlx_texture_t *texture)
 void	free_texture(t_cub *cub)
 {
 	if (cub->texture.northarr)
-		free_int_array(cub->texture.northarr, cub->texture.north->width, cub->texture.north->height);
+		free_int_array(cub->texture.northarr, cub->texture.north->width, \
+		cub->texture.north->height);
 	if (cub->texture.southarr)
-		free_int_array(cub->texture.southarr, cub->texture.south->width, cub->texture.south->height);
+		free_int_array(cub->texture.southarr, cub->texture.south->width, \
+		cub->texture.south->height);
 	if (cub->texture.westarr)
-		free_int_array(cub->texture.westarr, cub->texture.west->width, cub->texture.west->height);
+		free_int_array(cub->texture.westarr, cub->texture.west->width, \
+		cub->texture.west->height);
 	if (cub->texture.eastarr)
-		free_int_array(cub->texture.eastarr, cub->texture.east->width, cub->texture.east->height);
+		free_int_array(cub->texture.eastarr, cub->texture.east->width, \
+		cub->texture.east->height);
 	if (cub->texture.north)
 		mlx_delete_texture(cub->texture.north);
 	if (cub->texture.south)
@@ -69,11 +73,6 @@ void	free_texture(t_cub *cub)
 
 void	init_texture(t_cub *cub)
 {
-	printf("%s\n", cub->map.NO_path);
-	printf("%s\n", cub->map.SO_path);
-	printf("%s\n", cub->map.WE_path);
-	printf("%s\n", cub->map.EA_path);
-
 	cub->texture.north = mlx_load_png(cub->map.NO_path);
 	cub->texture.south = mlx_load_png(cub->map.SO_path);
 	cub->texture.west = mlx_load_png(cub->map.WE_path);
@@ -81,10 +80,8 @@ void	init_texture(t_cub *cub)
 	if (!cub->texture.north || !cub->texture.south || !cub->texture.west \
 		|| !cub->texture.east)
 	{
-		free_texture(cub);
-		exit_program(cub);
+		set_error(cub, "Failed to load PNG", MLX_ERROR);
 	}
-	
 	cub->texture.northarr = texture_to_array(cub, cub->texture.north);
 	cub->texture.southarr = texture_to_array(cub, cub->texture.south);
 	cub->texture.westarr = texture_to_array(cub, cub->texture.west);
@@ -92,7 +89,6 @@ void	init_texture(t_cub *cub)
 	if (!cub->texture.northarr || !cub->texture.southarr \
 		|| !cub->texture.westarr || !cub->texture.eastarr)
 	{
-		free_texture(cub);
-		exit_program(cub);
+		set_error(cub, "Memory allocation error", MLX_ERROR);
 	}
 }

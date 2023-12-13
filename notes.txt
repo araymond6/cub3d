@@ -15,11 +15,11 @@ Represents the x coordinate on the camera plane. Right side = 1, left side = -1,
 Used to normalise the ray direction.
 
 Sidedist:
-Distance to the nearest gridline.
+Holds the initial distances the ray needs to travel to reach the next grid line.
 
 Deltadist:
 Calculates how far the ray needs to travel across horizontal or vertical grid lines
 for each step the ray takes. Calculated by the reciprocal of the ray direction.
 
 Step:
-It reprensents 
+Stores the step direction 
