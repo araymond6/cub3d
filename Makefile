@@ -3,7 +3,7 @@ LIBFT = $(LIB_DIR)libft.a
 MLX42 = MLX42/build/libmlx42.a
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
+CFLAGS = -Wall -Werror -Wextra #-fsanitize=address -g
 MLX_FLAGS = -framework Cocoa -framework OpenGL -framework IOKit -I /include -lglfw -L "/Users/$(USER)/.brew/opt/glfw/lib/"
 
 SRC_DIR = src/
@@ -65,20 +65,18 @@ mlx:
 		fi
 	@echo "$(YELLOW)MLX42 built!$(RESET)"
 
-dep:
+dep: #TODO: MAKE THIS WORK
 	@echo "$(YELLOW)Checking dependencies...$(RESET)"
-	ifeq ($(NOTMAC), 0)
-		@if [ ! -f $(BREW)]; then \
-			/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
-			fi
-		@if [ ! -f $(CMAKE)]; then \
-			brew install cmake \
-			fi
-		@if [ ! -f $(GLFW)]; then \
-			brew install glfw \
-			fi
-		@echo "$(YELLOW)Dependencies installed!$(RESET)"
-	endif
+	@if [ ! -f $(BREW) ]; then \
+		-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
+		fi
+	@if [ ! -f $(CMAKE) ]; then \
+		brew install cmake \
+		fi
+	@if [ ! -f $(GLFW) ]; then \
+		brew install glfw \
+		fi
+	@echo "$(YELLOW)Dependencies installed!$(RESET)"
 
 lib: 
 	@make -C $(LIB_DIR)

@@ -75,13 +75,9 @@ void algo_parsing(t_map *map, char **only_map, int x, int y)
 	only_map[x][y] = 'A';
 	if(only_map[x][y+1] == '\n' || x == 0 || y == 0 || x == map->map_height-1)
 	{
+		print_map(only_map); //TODO: for testing purposes
 		free_char_array(only_map);
 		set_error(map, "Map is not closed", MAP_ERROR);
-	}
-	else if(only_map[x-1][y]== ' ' || only_map[x+1][y] == ' ' || only_map[x][y-1] == ' ' || only_map[x][y+1] == ' ')
-	{
-		free_char_array(only_map);
-		set_error(map, "Map is not closed 2", MAP_ERROR);
 	}
 	algo_parsing(map, only_map, x + 1, y);
 	algo_parsing(map, only_map, x, y + 1);
@@ -123,8 +119,12 @@ void flood_fill(t_map *map, int x, int y)
                 duped_map[i][j] = '0';
             }
         }
+
+        // Null-terminate the row
         duped_map[i][map->map_width] = '\0';
     }
+    
+    // Null-terminate the array
     duped_map[map->map_height] = NULL;
 
     algo_parsing(map, duped_map, x, y);
