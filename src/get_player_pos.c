@@ -11,7 +11,7 @@ void findMapDimensions(t_map *map)
             j = ft_strlen(map->only_map[i]);
          ++i;
      }
-     map->map_height = i-1;
+     map->map_height = i;
      map->map_width = j;
     
 }

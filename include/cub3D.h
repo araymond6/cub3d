@@ -134,5 +134,6 @@ char	*ft_strtok(char *str, const char *delimiters);
 void add_zero_map(t_map *map);
 void flood_fill(t_map *map, int x, int y);
 void print_map(char **map);
+int isMapSurrounded(char **map, int rows, int cols);
 
 #endif
