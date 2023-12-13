@@ -22,4 +22,4 @@ Calculates how far the ray needs to travel across horizontal or vertical grid li
 for each step the ray takes. Calculated by the reciprocal of the ray direction.
 
 Step:
-It reprensents 
+It represents 
