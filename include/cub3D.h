@@ -121,6 +121,7 @@ void	check_map_args(t_map *map);
 void	get_texture_path(t_map *s_map);
 char	*trim_texture_path(t_map *s_map, char *texture_path);
 int		parse_rgb_values(const char *rgbString, t_map *map, int isFloor);
+void check_rgb_values(t_map *map);
 void	read_map(t_map *map);
 void	findPlayerPosition(t_map *map);
 void	findMapDimensions(t_map *map);
