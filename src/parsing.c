@@ -5,6 +5,7 @@ void	check_map_args(t_map *s_map)
 	int	fd;
 	int	lines_nb;
 	int	i;
+	int	file_size;
 
 	lines_nb = 0;
 	i = 0;
@@ -14,15 +15,18 @@ void	check_map_args(t_map *s_map)
 		printf("Error\nUnable to open %s\n", s_map->map_path);
 		exit(EXIT_FAILURE);
 	}
-	s_map->map = malloc(sizeof(char *) * MAX_LINES);
+	file_size = count_file_size(fd);
+	s_map->map = malloc(sizeof(char *) * (file_size + 1));
 	if (s_map->map == NULL)
 	{
 		close(fd);
 		printf("Error\nMemory allocation error\n");
 		exit(EXIT_FAILURE);
 	}
+	close(fd);
+	fd = open(s_map->map_path, O_RDONLY);
 	s_map->map[i] = get_next_line(fd);
-	while (s_map->map[i] && i < MAX_LINES - 1)
+	while (s_map->map[i] && i < file_size)
 	{
 		s_map->map[++i] = get_next_line(fd);
 		lines_nb++;

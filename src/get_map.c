@@ -6,18 +6,22 @@ void read_map(t_map *map)
 {
 	int fd;
 	int i;
-	int j = 0;
-	map->only_map = NULL;
+	int j;
 	char *line;
 
 	i = 0;
+	j = 0;
+	map->only_map = NULL;
 	fd = open(map->map_path, O_RDONLY);
-	map->only_map = malloc(sizeof(char *) * MAX_LINES);
+	map->only_map = malloc(sizeof(char *) * (count_map_size(map, fd) + 1));
 	if (map->only_map == NULL)
 	{
+		close(fd);
 		printf("Error\nMemory allocation error\n");
 		exit(EXIT_FAILURE);
 	}
+	close(fd);
+	fd = open(map->map_path, O_RDONLY);
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		if (j>=map->start_map_index)
@@ -75,7 +79,6 @@ void algo_parsing(t_map *map, char **only_map, int x, int y)
 	only_map[x][y] = 'A';
 	if(only_map[x][y+1] == '\n' || x == 0 || y == 0 || x == map->map_height-1)
 	{
-		print_map(only_map); //TODO: for testing purposes
 		free_char_array(only_map);
 		set_error(map, "Map is not closed", MAP_ERROR);
 	}
@@ -87,8 +90,10 @@ void algo_parsing(t_map *map, char **only_map, int x, int y)
 
 void flood_fill(t_map *map, int x, int y) 
 {
-    char **duped_map = malloc((map->map_height + 1) * sizeof(char*));
-    
+    char	**duped_map;
+	int		len;
+	
+	duped_map = malloc((map->map_height + 1) * sizeof(char*));
     for (int i = 0; i < map->map_height; i++) 
     {
         duped_map[i] = malloc((map->map_width + 1) * sizeof(char));
@@ -102,7 +107,7 @@ void flood_fill(t_map *map, int x, int y)
             return;
         }
 
-        int len = strlen(map->only_map[i]);
+        len = ft_strlen(map->only_map[i]);
         for (int j = 0; j < map->map_width; j++) 
         {
             if (j < len) 

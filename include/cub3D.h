@@ -18,11 +18,6 @@
 #define SCREENHEIGHT 768
 #define PLAYERBOUND 0.2
 
-
-							//rouge
-  		/*  rouge  */	#define MAX_LINES 1000 //ROUGE
-							//rouge
-
 // for defining what to free in case of error
 typedef enum e_error
 {
@@ -130,7 +125,6 @@ void	read_map(t_map *map);
 void	findPlayerPosition(t_map *map);
 void	findMapDimensions(t_map *map);
 void	set_texture_path(char **dest, char *token, t_map *s_map);
-void	check_wall(t_map *map, char **only_map, int x, int y);
 
 // all utils
 void	init_cub(t_cub *cub);
@@ -149,6 +143,8 @@ void	set_error(void *param, char *error_message, t_error error_type);
 int		check_path(char *path);
 int		check_extension(char *path, char *extension);
 void	check_params(t_map *map); // used to check if all params are present
+int		count_file_size(int fd);
+int		count_map_size(t_map *map, int fd);
 
 void	add_zero_map(t_map *map);
 void	flood_fill(t_map *map, int x, int y);

@@ -3,7 +3,7 @@ LIBFT = $(LIB_DIR)libft.a
 MLX42 = MLX42/build/libmlx42.a
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra #-fsanitize=address -g
+CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 MLX_FLAGS = -framework Cocoa -framework OpenGL -framework IOKit -I /include -lglfw -L "/Users/$(USER)/.brew/opt/glfw/lib/"
 
 SRC_DIR = src/
@@ -91,7 +91,7 @@ fclean: clean
 	rm -rf $(BUILD_DIR)
 	make fclean -C $(LIB_DIR)
 
-val: 
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes ./$(NAME) maps/example.cub
+val: all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes ./$(NAME) maps/pig.cub
 
 .PHONY: re debug fclean clean all run mlx dep val
