@@ -3,7 +3,7 @@ LIBFT = $(LIB_DIR)libft.a
 MLX42 = MLX42/build/libmlx42.a
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 MLX_FLAGS = -framework Cocoa -framework OpenGL -framework IOKit -I /include -lglfw -L "/Users/$(USER)/.brew/opt/glfw/lib/"
 
 SRC_DIR = src/
@@ -36,19 +36,21 @@ INC = cub3D.h
 INC_PRE = $(addprefix $(INC_DIR), $(INC))
 
 BREW = /Users/$(USER)/.brew/bin/brew
-CMAKE = /Users/$(USER)/.brew/bin/cmake
-GLFW = /Users/$(USER)/.brew/Cellar/glfw
+DEP_INSTALLED := .dep_installed
+MLX_INSTALLED := .mlx_installed
 
 #COLORS
 YELLOW = \033[93m
 BLUE = \033[94m
 RESET = \033[0m
 
-all: lib mlx $(NAME)
+all: dep lib mlx $(NAME)
 
 $(OBJ_DIR)%.o: %.c $(INC_PRE)
+	@echo "$(YELLOW)Compiling $<...$(RESET)"
 	mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
+	@echo "$(YELLOW)$< compiled!$(RESET)"
 
 $(NAME): $(OBJ_PRE)
 	@echo "$(YELLOW)Compiling files...$(RESET)"
@@ -57,41 +59,57 @@ $(NAME): $(OBJ_PRE)
 
 re: fclean all
 
-mlx:
+mlx: | $(MLX_INSTALLED)
+
+$(MLX_INSTALLED):
 	@echo "$(YELLOW)Checking MLX42...$(RESET)"
 	@if [ ! -f $(MLX42) ]; then \
 		(cd $(MLX_DIR) && cmake -B build/); \
 		(make -C $(BUILD_DIR)); \
 		fi
+	@touch $(MLX_INSTALLED)
 	@echo "$(YELLOW)MLX42 built!$(RESET)"
 
-dep: #TODO: MAKE THIS WORK
+dep: | $(DEP_INSTALLED)
+
+$(DEP_INSTALLED):
 	@echo "$(YELLOW)Checking dependencies...$(RESET)"
 	@if [ ! -f $(BREW) ]; then \
-		-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
+		yes | -/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; \
 		fi
-	@if [ ! -f $(CMAKE) ]; then \
-		brew install cmake \
+	@if ! brew list | grep -q "cmake"; then \
+		brew install cmake; \
 		fi
-	@if [ ! -f $(GLFW) ]; then \
-		brew install glfw \
+	@if ! brew list | grep -q "glfw"; then \
+		brew install glfw; \
 		fi
+	@touch $(DEP_INSTALLED)
 	@echo "$(YELLOW)Dependencies installed!$(RESET)"
 
-lib: 
+lib: $(LIBFT)
+
+$(LIBFT):
+	@echo "$(YELLOW)Building libft...$(RESET)"
 	@make -C $(LIB_DIR)
+	@echo "$(YELLOW)Libft built!$(RESET)"
 
 clean:
+	@echo "$(YELLOW)Removing object files...$(RESET)"
 	rm -rf $(OBJ_DIR)
 	make clean -C $(LIB_DIR)
 	make clean -C $(BUILD_DIR)
+	@echo "$(YELLOW)Files removed!$(RESET)"
 
 fclean: clean
+	@echo "$(YELLOW)Removing program and dependency files...$(RESET)"
 	rm -rf $(NAME)
 	rm -rf $(BUILD_DIR)
+	rm -rf $(DEP_INSTALLED)
+	rm -rf $(MLX_INSTALLED)
 	make fclean -C $(LIB_DIR)
+	@echo "$(YELLOW)Files removed!$(RESET)"
 
 val: all
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes ./$(NAME) maps/pig.cub
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --suppressions=supp.txt ./$(NAME) maps/pig.cub
 
-.PHONY: re debug fclean clean all run mlx dep val
+.PHONY: re fclean clean all run mlx dep val lib

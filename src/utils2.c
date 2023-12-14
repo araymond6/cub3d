@@ -70,6 +70,7 @@ void	free_int_array(int **arr, int x, int y)
 	}
 }
 
+// only frees what is necessary depending on the error (MAP_ERROR OR MLX_ERROR)
 void	set_error(void *param, char *error_message, t_error error_type)
 {
 	t_cub	*cub;

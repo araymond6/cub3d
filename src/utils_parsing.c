@@ -2,67 +2,62 @@
 
 char	*ft_strtok(char *str, const char *delimiters)
 {
-	static char *lastToken = NULL;
+	static char	*lasttoken = NULL;
+	char		*tokenstart;
 
+	tokenstart = NULL;
 	if (str != NULL)
 	{
-		lastToken = str;
+		lasttoken = str;
 	}
 	else
 	{
-		if (lastToken == NULL)
+		if (lasttoken == NULL)
 		{
 			return (NULL);
 		}
 	}
-
-	while (*lastToken != '\0' && strchr(delimiters, *lastToken) != NULL)
-		lastToken++;
-
-	if (*lastToken == '\0')
+	while (*lasttoken != '\0' && strchr(delimiters, *lasttoken) != NULL)
+		lasttoken++;
+	if (*lasttoken == '\0')
 	{
-		lastToken = NULL;
+		lasttoken = NULL;
 		return (NULL);
 	}
-
-	char *tokenStart = lastToken;
-	while (*lastToken != '\0' && ft_strchr(delimiters, *lastToken) == NULL)
-		lastToken++;
-
-	if (*lastToken != '\0')
+	tokenstart = lasttoken;
+	while (*lasttoken != '\0' && ft_strchr(delimiters, *lasttoken) == NULL)
+		lasttoken++;
+	if (*lasttoken != '\0')
 	{
-		*lastToken = '\0';
-		lastToken++;
+		*lasttoken = '\0';
+		lasttoken++;
 	}
-
-	return (tokenStart);
+	return (tokenstart);
 }
 
-int ft_strcmp(const char *str1, const char *str2) 
+int	ft_strcmp(const char *str1, const char *str2)
 {
-	while (*str1 != '\0' && *str2 != '\0') {
-		if (*str1 < *str2) {
-			return -1;
-		} else if (*str1 > *str2) {
-			return 1;
-		}
+	while (*str1 != '\0' && *str2 != '\0')
+	{
+		if (*str1 < *str2)
+			return (-1);
+		else if (*str1 > *str2)
+			return (1);
 		str1++;
 		str2++;
 	}
-
-	if (*str1 == '\0' && *str2 == '\0') {
-		return 0;
-	} else if (*str1 == '\0') {
-		return -1;
-	} else {
-		return 1;
-	}
+	if (*str1 == '\0' && *str2 == '\0')
+		return (0);
+	else if (*str1 == '\0')
+		return (-1);
+	else
+		return (1);
 }
 
 int	check_extension(char *path, char *extension)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -86,13 +81,18 @@ int	check_extension(char *path, char *extension)
 	return (0);
 }
 
-void free_map(t_map *map)
+void	free_map(t_map *map)
 {
+	int	i;
+
+	i = 0;
 	if (map->only_map)
-	for (int i = 0; map->only_map[i] != NULL; i++)
 	{
-		free(map->only_map[i]);
+		while (map->only_map[i] != NULL)
+		{
+			free(map->only_map[i]);
+			i++;
+		}
 	}
 	free(map->only_map);
 }
-

@@ -33,6 +33,7 @@ void	check_map_args(t_map *s_map)
 	}
 	close(fd);
 }
+
 char	*trim_spaces(char *str)
 {
 	char	*end;
@@ -50,7 +51,7 @@ char	*trim_spaces(char *str)
 	return (str);
 }
 
-void set_texture_path(char **dest, char *token, t_map *s_map)
+void	set_texture_path(char **dest, char *token, t_map *s_map)
 {
 	free(*dest);
 	*dest = trim_texture_path(s_map, token);
@@ -61,7 +62,7 @@ void set_texture_path(char **dest, char *token, t_map *s_map)
 	}
 }
 
-void get_texture_path(t_map *s_map)
+void	get_texture_path(t_map *s_map)
 {
 	int		i;
 	char	*line;
@@ -72,7 +73,6 @@ void get_texture_path(t_map *s_map)
 	{
 		line = trim_spaces(s_map->map[i]);
 		token = ft_strtok(line, " ");
-
 		while (token != NULL)
 		{
 			if (ft_strcmp(token, "NO") == 0)
@@ -91,26 +91,26 @@ void get_texture_path(t_map *s_map)
 				&& s_map->WE_path != NULL && s_map->EA_path != NULL && s_map->start_map_index == 0)
 					s_map->start_map_index = i;
 			token = ft_strtok(NULL, " ");
-			// set_paths(s_map, token, i); //TODO: shorten this thing with this
 		}
 		i++;
 	}
 	check_params(s_map); // used to check if params exist
 }
 
-
 char	*trim_texture_path(t_map *s_map, char *texture_path)
 {
-	int i = 0;
-	int j = 0;
-	char *clean_path;
-	
+	int		i;
+	int		j;
+	char	*clean_path;
+
+	i = 0;
+	j = 0;
 	clean_path = malloc(ft_strlen(texture_path) - i + 1);
 	if (clean_path == NULL)
 	{
 		set_error(s_map, "Memory allocation error", MAP_ERROR);
 	}
-	while (texture_path[i])
+	while (texture_path[i]) // TODO: check texture path
 	{
 		clean_path[j] = texture_path[i];
 		i++;
