@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_parsing.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwawzyni <dwawzyni@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/15 11:22:25 by dwawzyni          #+#    #+#             */
+/*   Updated: 2023/12/15 12:11:30 by dwawzyni         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3D.h"
 
 char	*ft_strtok(char *str, const char *delimiters)
@@ -7,23 +19,16 @@ char	*ft_strtok(char *str, const char *delimiters)
 
 	tokenstart = NULL;
 	if (str != NULL)
-	{
 		lasttoken = str;
-	}
-	else
-	{
-		if (lasttoken == NULL)
-		{
-			return (NULL);
-		}
-	}
+	else if (lasttoken == NULL)
+		return (NULL);
 	while (*lasttoken != '\0' && strchr(delimiters, *lasttoken) != NULL)
 		lasttoken++;
 	if (*lasttoken == '\0')
-	{
-		lasttoken = NULL;
-		return (NULL);
-	}
+		while (*lasttoken != '\0' && strchr(delimiters, *lasttoken) != NULL)
+			lasttoken++;
+	if (*lasttoken == '\0')
+		return (lasttoken = NULL);
 	tokenstart = lasttoken;
 	while (*lasttoken != '\0' && ft_strchr(delimiters, *lasttoken) == NULL)
 		lasttoken++;
@@ -95,4 +100,14 @@ void	free_map(t_map *map)
 		}
 	}
 	free(map->only_map);
+}
+
+void	malloc_error_map(t_map *map, int fd)
+{
+	if (map->map == NULL)
+	{
+		close(fd);
+		printf("Error\nMemory allocation error\n");
+		exit(EXIT_FAILURE);
+	}
 }

@@ -55,8 +55,8 @@ void	parsing(t_map *map)
 	read_map(map);
 	wrong_character_in_map(map);
 	add_zero_map(map);
-	findMapDimensions(map);
-	findPlayerPosition(map);
+	find_map_dimensions(map);
+	find_player_position(map);
 	flood_fill(map, map->player_pos_x, map->player_pos_y);
 	test_textures(map);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3D.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/15 12:54:11 by araymond          #+#    #+#             */
+/*   Updated: 2023/12/15 12:55:09 by araymond         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -118,12 +130,18 @@ void	set_direction(t_cub *cub);
 //parsing functions
 void	check_map_args(t_map *map);
 void	get_texture_path(t_map *s_map);
+char	**get_texture_path_by_token(t_map *s_map, char *token);
+int		check_all_params_exist(t_map *s_map);
+char	*trim_spaces(char *str);
+void	set_texture_path(char **dest, char *token, t_map *s_map);
+void	malloc_error_map(t_map *map, int fd);
 char	*trim_texture_path(t_map *s_map, char *texture_path);
 int		parse_rgb_values(const char *rgbString, t_map *map, int isFloor);
 void	check_rgb_values(t_map *map);
 void	read_map(t_map *map);
-void	findPlayerPosition(t_map *map);
-void	findMapDimensions(t_map *map);
+void	find_player_position(t_map *map);
+void	find_map_dimensions(t_map *map);
+void	flood_fill_part(t_map *map, char **duped_map, int i, int j);
 void	set_texture_path(char **dest, char *token, t_map *s_map);
 void	wrong_character_in_map(t_map *map);
 void	add_zero_map(t_map *map);

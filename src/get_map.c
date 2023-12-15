@@ -1,81 +1,90 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_map.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/15 12:19:47 by dwawzyni          #+#    #+#             */
+/*   Updated: 2023/12/15 12:53:48 by araymond         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3D.h"
 
-void read_map(t_map *map)
+void	read_map(t_map *map)
 {
-	int fd;
-	int i;
-	int j;
-	char *line;
+	int		fd;
+	int		i;
+	int		j;
+	char	*line;
 
 	i = 0;
 	j = 0;
 	map->only_map = NULL;
 	fd = open(map->map_path, O_RDONLY);
-	map->only_map = malloc(sizeof(char *) * (count_map_size(map, fd) + 1));
-	if (map->only_map == NULL)
-	{
-		close(fd);
-		printf("Error\nMemory allocation error\n");
-		exit(EXIT_FAILURE);
-	}
+	map->only_map = ft_calloc(sizeof(char *), (count_map_size(map, fd) + 1));
+	if (!map->only_map)
+		set_error(map, "Memory allocation error", MAP_ERROR);
 	close(fd);
 	fd = open(map->map_path, O_RDONLY);
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
-		if (j>=map->start_map_index)
-		{
-			map->only_map[i] = ft_strdup(line);
-			i++;
-		}
+		if (j >= map->start_map_index)
+			map->only_map[i++] = ft_strdup(line);
 		j++;
 		free(line);
+		line = get_next_line(fd);
 	}
-	map->only_map[i] = NULL;
 	close(fd);
 }
 
-void add_zero_map(t_map *map)
+void	add_zero_map(t_map *map)
 {
-    int i;
-    int j;
+	int	i;
+	int	j;
 
-    i = 0;
-    j = 0;
-    while(map->only_map[i])
-    {
-        j = 0;
-        while(map->only_map[i][j])
-        {
-            if(map->only_map[i][j] == ' ')
-            {
-                map->only_map[i][j] = '0';
-            }
-            j++;
-        }
-        i++;
-    }
+	i = 0;
+	j = 0;
+	while (map->only_map[i])
+	{
+		j = 0;
+		while (map->only_map[i][j])
+		{
+			if (map->only_map[i][j] == ' ')
+			{
+				map->only_map[i][j] = '0';
+			}
+			j++;
+		}
+		i++;
+	}
 }
 
 void	check_params(t_map *map)
 {
-	if (map->no_path == NULL || \
-		map->so_path == NULL || \
-		map->we_path == NULL || \
-		map->ea_path == NULL || \
-		map->c_rgb == NULL || \
+	if (map->no_path == NULL || 
+		map->so_path == NULL || 
+		map->we_path == NULL || 
+		map->ea_path == NULL || 
+		map->c_rgb == NULL || 
 		map->f_rgb == NULL)
 	{
 		set_error(map, "Incorrect parameters", MAP_ERROR);
 	}
 }
 
-void algo_parsing(t_map *map, char **only_map, int x, int y) 
+void	algo_parsing(t_map *map, char **only_map, int x, int y)
 {
-	if (x < 0 || y < 0 || x >= map->map_height || y >= map->map_width || only_map[x][y] != '0') {
-		return;
+	if (x < 0 || y < 0 || x >= map->map_height || y >= map->map_width
+		|| only_map[x][y] != '0')
+	{
+		return ;
 	}
 	only_map[x][y] = 'A';
-	if(only_map[x][y+1] == '\n' || x == 0 || y == 0 || x == map->map_height-1)
+	if (only_map[x][y + 1] == '\n' || x == 0 || y == 0 || x == map->map_height
+		- 1)
 	{
 		free_char_array(only_map);
 		set_error(map, "Map is not closed", MAP_ERROR);
@@ -86,48 +95,28 @@ void algo_parsing(t_map *map, char **only_map, int x, int y)
 	algo_parsing(map, only_map, x, y - 1);
 }
 
-void flood_fill(t_map *map, int x, int y) 
+void	flood_fill(t_map *map, int x, int y)
 {
-    char	**duped_map;
-	int		len;
-	
-	duped_map = malloc((map->map_height + 1) * sizeof(char*));
-    for (int i = 0; i < map->map_height; i++) 
-    {
-        duped_map[i] = malloc((map->map_width + 1) * sizeof(char));
-        if (duped_map[i] == NULL) 
-        {
-            printf("Memory allocation error in row %d.\n", i);
-            for (int j = 0; j < i; ++j) {
-                free(duped_map[j]);
-            }
-            free(duped_map);
-            return;
-        }
-        len = ft_strlen(map->only_map[i]);
-        for (int j = 0; j < map->map_width; j++) 
-        {
-            if (j < len) 
-            {
-                if (map->only_map[i][j] != '\n') {
-                    duped_map[i][j] = map->only_map[i][j];
-                } else {
-                    // Replace '\n' with '0'
-                    duped_map[i][j] = '0';
-                }
-            } 
-            else 
-            {
-                duped_map[i][j] = '0';
-            }
-        }
-        duped_map[i][map->map_width] = '\0';
-    }
-    duped_map[map->map_height] = NULL;
-    algo_parsing(map, duped_map, x, y);
-    for (int i = 0; i < map->map_height; ++i) 
-    {
-        free(duped_map[i]);
-    }
-    free(duped_map);
+	char	**duped_map;
+	int		i;
+	int		j;
+
+	i = 0;
+	duped_map = ft_calloc((map->map_height + 1), sizeof(char *));
+	while (i < map->map_height)
+	{
+		j = 0;
+		duped_map[i] = malloc((map->map_width + 1) * sizeof(char));
+		if (duped_map[i] == NULL)
+		{
+			free_char_array(duped_map);
+			set_error(map, "Memory allocation error", MAP_ERROR);
+		}
+		flood_fill_part(map, duped_map, i, j);
+		duped_map[i][map->map_width] = '\0';
+		i++;
+	}
+	duped_map[map->map_height] = NULL;
+	algo_parsing(map, duped_map, x, y);
+	free_char_array(duped_map);
 }
