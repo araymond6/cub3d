@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwawzyni <dwawzyni@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/15 11:55:46 by dwawzyni          #+#    #+#             */
+/*   Updated: 2023/12/15 12:12:30 by dwawzyni         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3D.h"
-char **get_texture_path_by_token(t_map *s_map, char *token);
-int check_all_params_exist(t_map *s_map);
+
 void	check_map_args(t_map *s_map)
 {
 	int	fd;
@@ -18,12 +29,7 @@ void	check_map_args(t_map *s_map)
 	}
 	file_size = count_file_size(fd);
 	s_map->map = malloc(sizeof(char *) * (file_size + 1));
-	if (s_map->map == NULL)
-	{
-		close(fd);
-		printf("Error\nMemory allocation error\n");
-		exit(EXIT_FAILURE);
-	}
+	malloc_error_map(s_map, fd);
 	close(fd);
 	fd = open(s_map->map_path, O_RDONLY);
 	s_map->map[i] = get_next_line(fd);
@@ -34,91 +40,66 @@ void	check_map_args(t_map *s_map)
 	}
 	close(fd);
 }
-char	*trim_spaces(char *str)
-{
-	char	*end;
 
-	while (ft_isspace(*str))
+void	get_texture_path(t_map *s_map)
+{
+	int		i;
+	char	*token;
+
+	i = -1;
+	while (s_map->map[++i])
 	{
-		str++;
+		token = (ft_strtok(trim_spaces(s_map->map[i]), " "));
+		while (token != NULL)
+		{
+			if (ft_strcmp(token, "NO") == 0 || ft_strcmp(token, "SO") == 0
+				|| ft_strcmp(token, "WE") == 0 || ft_strcmp(token, "EA") == 0)
+				set_texture_path(get_texture_path_by_token(s_map, token),
+					ft_strtok(NULL, " "), s_map);
+			else if (ft_strcmp(token, "F") == 0)
+				s_map->f_rgb = ft_strtok(NULL, " ");
+			else if (ft_strcmp(token, "C") == 0)
+				s_map->c_rgb = ft_strtok(NULL, " ");
+			else if (check_all_params_exist(s_map)
+				&& s_map->start_map_index == 0)
+				s_map->start_map_index = i;
+			token = ft_strtok(NULL, " ");
+		}
 	}
-	end = str + ft_strlen(str) - 1;
-	while (end > str && ft_isspace(*end))
-	{
-		end--;
-	}
-	*(end + 1) = '\0';
-	return (str);
+	check_params(s_map);
 }
 
-void set_texture_path(char **dest, char *token, t_map *s_map)
+char	**get_texture_path_by_token(t_map *s_map, char *token)
 {
-	free(*dest);
-	*dest = trim_texture_path(s_map, token);
-
-	if (*dest == NULL)
-	{
-		set_error(s_map, "Unable to get path", MAP_ERROR);
-	}
+	if (ft_strcmp(token, "NO") == 0)
+		return (&s_map->NO_path);
+	if (ft_strcmp(token, "SO") == 0)
+		return (&s_map->SO_path);
+	if (ft_strcmp(token, "WE") == 0)
+		return (&s_map->WE_path);
+	if (ft_strcmp(token, "EA") == 0)
+		return (&s_map->EA_path);
+	return (NULL);
 }
 
-void get_texture_path(t_map *s_map)
+int	check_all_params_exist(t_map *s_map)
 {
-    int i;
-	char *line;
-	char *token;
-
-	i = 0;
-    while (s_map->map[i])
-    {
-        line = trim_spaces(s_map->map[i]);
-        token = ft_strtok(line, " ");
-        while (token != NULL)
-        {
-            if (ft_strcmp(token, "NO") == 0 || ft_strcmp(token, "SO") == 0 || ft_strcmp(token, "WE") == 0 || ft_strcmp(token, "EA") == 0)
-                set_texture_path(get_texture_path_by_token(s_map, token), ft_strtok(NULL, " "), s_map);
-            else if (ft_strcmp(token, "F") == 0)
-                s_map->f_rgb = ft_strtok(NULL, " ");
-            else if (ft_strcmp(token, "C") == 0)
-                s_map->c_rgb = ft_strtok(NULL, " ");
-            else if (check_all_params_exist(s_map) && s_map->start_map_index == 0)
-                s_map->start_map_index = i;
-            token = ft_strtok(NULL, " ");
-        }
-        i++;
-    }
-    check_params(s_map); // used to check if params exist
+	return (s_map->c_rgb != NULL && s_map->f_rgb != NULL
+		&& s_map->NO_path != NULL && \
+		s_map->SO_path != NULL && s_map->WE_path != NULL
+		&& s_map->EA_path != NULL);
 }
-
-char **get_texture_path_by_token(t_map *s_map, char *token)
-{
-    if (ft_strcmp(token, "NO") == 0) 
-		return &s_map->NO_path;
-    if (ft_strcmp(token, "SO") == 0) 
-		return &s_map->SO_path;
-    if (ft_strcmp(token, "WE") == 0) 
-		return &s_map->WE_path;
-    if (ft_strcmp(token, "EA") == 0) 
-		return &s_map->EA_path;
-    return NULL;
-}
-
-int check_all_params_exist(t_map *s_map)
-{
-    return (s_map->c_rgb != NULL && s_map->f_rgb != NULL && s_map->NO_path != NULL &&
-            s_map->SO_path != NULL && s_map->WE_path != NULL && s_map->EA_path != NULL
-			);
-}
-
 
 char	*trim_texture_path(t_map *s_map, char *texture_path)
 {
-	int i = 0;
-	int j = 0;
-	char *clean_path;
+	int		i;
+	int		j;
+	char	*clean_path;
 
-	if(!(texture_path))
-		set_error(s_map,"test error",MAP_ERROR);
+	i = 0;
+	j = 0;
+	if (!(texture_path))
+		set_error(s_map, "test error", MAP_ERROR);
 	clean_path = malloc(ft_strlen(texture_path) - i + 1);
 	if (clean_path == NULL)
 	{

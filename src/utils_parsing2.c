@@ -6,7 +6,7 @@
 /*   By: dwawzyni <dwawzyni@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 11:20:16 by dwawzyni          #+#    #+#             */
-/*   Updated: 2023/12/15 11:22:00 by dwawzyni         ###   ########.fr       */
+/*   Updated: 2023/12/15 12:03:20 by dwawzyni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,31 @@ int	count_file_size(int fd)
 		line = get_next_line(fd);
 	}
 	return (i);
+}
+
+char	*trim_spaces(char *str)
+{
+	char	*end;
+
+	while (ft_isspace(*str))
+	{
+		str++;
+	}
+	end = str + ft_strlen(str) - 1;
+	while (end > str && ft_isspace(*end))
+	{
+		end--;
+	}
+	*(end + 1) = '\0';
+	return (str);
+}
+
+void	set_texture_path(char **dest, char *token, t_map *s_map)
+{
+	free(*dest);
+	*dest = trim_texture_path(s_map, token);
+	if (*dest == NULL)
+	{
+		set_error(s_map, "Unable to get path", MAP_ERROR);
+	}
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwawzyni <dwawzyni@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/15 11:44:58 by dwawzyni          #+#    #+#             */
+/*   Updated: 2023/12/15 11:44:59 by dwawzyni         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3D.h"
 
 // only sets the variable that are NOT zero
@@ -70,6 +82,7 @@ void	free_int_array(int **arr, int x, int y)
 	}
 }
 
+// only frees what is necessary depending on the error (MAP_ERROR OR MLX_ERROR)
 void	set_error(void *param, char *error_message, t_error error_type)
 {
 	t_cub	*cub;

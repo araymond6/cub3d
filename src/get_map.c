@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_map.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dwawzyni <dwawzyni@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/15 12:19:47 by dwawzyni          #+#    #+#             */
+/*   Updated: 2023/12/15 12:42:11 by dwawzyni         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3D.h"
 
 void	read_map(t_map *map)
@@ -11,16 +23,11 @@ void	read_map(t_map *map)
 	j = 0;
 	map->only_map = NULL;
 	fd = open(map->map_path, O_RDONLY);
-	map->only_map = malloc(sizeof(char *) * (count_map_size(map, fd) + 1));
-	if (map->only_map == NULL)
-	{
-		close(fd);
-		printf("Error\nMemory allocation error\n");
-		exit(EXIT_FAILURE);
-	}
+	map->only_map = ft_calloc(sizeof(char *), (count_map_size(map, fd) + 1));
 	close(fd);
 	fd = open(map->map_path, O_RDONLY);
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
 		if (j >= map->start_map_index)
 		{
@@ -29,8 +36,8 @@ void	read_map(t_map *map)
 		}
 		j++;
 		free(line);
+		line = get_next_line(fd);
 	}
-	map->only_map[i] = NULL;
 	close(fd);
 }
 
@@ -58,11 +65,11 @@ void	add_zero_map(t_map *map)
 
 void	check_params(t_map *map)
 {
-	if (map->NO_path == NULL ||
-		map->SO_path == NULL ||
-		map->WE_path == NULL ||
-		map->EA_path == NULL ||
-		map->c_rgb == NULL ||
+	if (map->NO_path == NULL || 
+		map->SO_path == NULL || 
+		map->WE_path == NULL || 
+		map->EA_path == NULL || 
+		map->c_rgb == NULL || 
 		map->f_rgb == NULL)
 	{
 		set_error(map, "Incorrect parameters", MAP_ERROR);
@@ -92,49 +99,25 @@ void	algo_parsing(t_map *map, char **only_map, int x, int y)
 void	flood_fill(t_map *map, int x, int y)
 {
 	char	**duped_map;
-	int		len;
+	int		i;
+	int		j;
 
-	duped_map = malloc((map->map_height + 1) * sizeof(char *));
-	for (int i = 0; i < map->map_height; i++)
+	i = 0;
+	duped_map = ft_calloc((map->map_height + 1), sizeof(char *));
+	while (i < map->map_height)
 	{
+		j = 0;
 		duped_map[i] = malloc((map->map_width + 1) * sizeof(char));
 		if (duped_map[i] == NULL)
 		{
-			printf("Memory allocation error in row %d.\n", i);
-			for (int j = 0; j < i; ++j)
-			{
-				free(duped_map[j]);
-			}
-			free(duped_map);
-			return ;
+			free_char_array(duped_map);
+			set_error(map, "Memory allocation error", MAP_ERROR);
 		}
-		len = ft_strlen(map->only_map[i]);
-		for (int j = 0; j < map->map_width; j++)
-		{
-			if (j < len)
-			{
-				if (map->only_map[i][j] != '\n')
-				{
-					duped_map[i][j] = map->only_map[i][j];
-				}
-				else
-				{
-					// Replace '\n' with '0'
-					duped_map[i][j] = '0';
-				}
-			}
-			else
-			{
-				duped_map[i][j] = '0';
-			}
-		}
+		flood_fill_part(map, duped_map, i, j);
 		duped_map[i][map->map_width] = '\0';
+		i++;
 	}
 	duped_map[map->map_height] = NULL;
 	algo_parsing(map, duped_map, x, y);
-	for (int i = 0; i < map->map_height; ++i)
-	{
-		free(duped_map[i]);
-	}
-	free(duped_map);
+	free_char_array(duped_map);
 }
