@@ -106,7 +106,6 @@ void flood_fill(t_map *map, int x, int y)
             free(duped_map);
             return;
         }
-
         len = ft_strlen(map->only_map[i]);
         for (int j = 0; j < map->map_width; j++) 
         {
@@ -124,17 +123,10 @@ void flood_fill(t_map *map, int x, int y)
                 duped_map[i][j] = '0';
             }
         }
-
-        // Null-terminate the row
         duped_map[i][map->map_width] = '\0';
     }
-    
-    // Null-terminate the array
     duped_map[map->map_height] = NULL;
-
     algo_parsing(map, duped_map, x, y);
-
-    // Free allocated memory
     for (int i = 0; i < map->map_height; ++i) 
     {
         free(duped_map[i]);

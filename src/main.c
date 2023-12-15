@@ -37,14 +37,15 @@ void	parsing(t_map *map)
 {
 	check_map_args(map);
 	get_texture_path(map);
+	parse_rgb_values(map->f_rgb, map, 1);
+	parse_rgb_values(map->c_rgb, map, 0);
+	check_rgb_values(map);
 	read_map(map);
+	wrong_character_in_map(map);
 	add_zero_map(map);
 	findMapDimensions(map);
 	findPlayerPosition(map);
 	flood_fill(map, map->player_pos_x, map->player_pos_y);
-	parse_rgb_values(map->f_rgb, map, 1);
-	parse_rgb_values(map->c_rgb, map, 0);
-	check_rgb_values(map);
 	test_textures(map);
 }
 
