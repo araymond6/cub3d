@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:59:07 by araymond          #+#    #+#             */
-/*   Updated: 2023/03/07 16:00:51 by araymond         ###   ########.fr       */
+/*   Updated: 2023/12/15 10:21:28 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static char	*ft_newstat(char *stat)
 
 	i = 0;
 	j = 0;
+	newstat = NULL;
 	while (stat[i] && stat[i] != '\n')
 		i++;
 	if (stat[i] == '\0')
@@ -29,7 +30,7 @@ static char	*ft_newstat(char *stat)
 		return (NULL);
 	}
 	i++;
-	newstat = ft_callocgnl(sizeof(*newstat), ft_strlen(stat) - i + 1);
+	newstat = ft_calloc(sizeof(*newstat), ft_strlen(stat) - i + 1);
 	if (!newstat)
 	{
 		free(stat);
@@ -42,16 +43,18 @@ static char	*ft_newstat(char *stat)
 }
 
 //gets the line to return from the static char
-static char	*ft_getline(char *stat, char *line)
+static char	*ft_getline(char *stat)
 {
-	int	i;
+	int		i;
+	char	*line;
 
+	line = NULL;
 	i = 0;
 	if (!stat)
 		return (NULL);
 	while (stat[i] != '\n' && stat[i])
 		i++;
-	line = ft_callocgnl(sizeof(*line), i + 2);
+	line = ft_calloc(sizeof(*line), i + 2);
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -83,13 +86,13 @@ static char	*ft_findnewline(int fd, char *stat)
 	char	*buf;
 	int		rd;
 
-	buf = ft_callocgnl(sizeof(*buf), (BUFFER_SIZE + 1));
+	rd = 1;
+	buf = ft_calloc(sizeof(*buf), (BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
-	rd = 1;
 	while (rd > 0 && !ft_strchr(buf, '\n'))
 	{
-		ft_bzerognl(buf, BUFFER_SIZE);
+		ft_bzero(buf, BUFFER_SIZE);
 		rd = read(fd, buf, BUFFER_SIZE);
 		if (!ft_checkrd(stat, buf, rd))
 			return (NULL);
@@ -110,7 +113,7 @@ static char	*ft_findnewline(int fd, char *stat)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*stat;
+	static char	*stat = NULL;
 
 	if (fd < 0 || BUFFER_SIZE < 1 || read(fd, NULL, 0))
 	{
@@ -123,13 +126,12 @@ char	*get_next_line(int fd)
 	}
 	if (!stat)
 	{
-		stat = ft_callocgnl(sizeof(*stat), 1);
+		stat = ft_calloc(sizeof(*stat), 1);
 		if (!stat)
 			return (NULL);
 	}
 	stat = ft_findnewline(fd, stat);
-	line = NULL;
-	line = ft_getline(stat, line);
+	line = ft_getline(stat);
 	if (!line)
 		return (NULL);
 	stat = ft_newstat(stat);

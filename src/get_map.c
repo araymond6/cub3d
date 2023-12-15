@@ -1,7 +1,5 @@
 #include "../include/cub3D.h"
 
-void print_map(char **map);
-
 void read_map(t_map *map)
 {
 	int fd;

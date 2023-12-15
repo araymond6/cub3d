@@ -18,11 +18,15 @@ int	parse_rgb_values(const char *rgbString, t_map *map, int isFloor)
 		while(check_if_number[count][j])
 		{
 			if(!(ft_isdigit(check_if_number[count][j])))
+			{
+				free_char_array(check_if_number);
 				set_error(map,"one character is not a digit",MAP_ERROR);
+			}
 			j++;
 		}
 		count++;
 	}
+	free_char_array(check_if_number);
 	if (!copy)
 		set_error(map, "Memory allocation error", MAP_ERROR);
 	count = 0;

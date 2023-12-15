@@ -3,7 +3,7 @@ LIBFT = $(LIB_DIR)libft.a
 MLX42 = MLX42/build/libmlx42.a
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 MLX_FLAGS = -framework Cocoa -framework OpenGL -framework IOKit -I /include -lglfw -L "/Users/$(USER)/.brew/opt/glfw/lib/"
 
 SRC_DIR = src/
@@ -97,7 +97,9 @@ clean:
 	@echo "$(YELLOW)Removing object files...$(RESET)"
 	rm -rf $(OBJ_DIR)
 	make clean -C $(LIB_DIR)
-	make clean -C $(BUILD_DIR)
+	@if [ -f $(BUILD_DIR) ]; then \
+		make clean -C $(BUILD_DIR); \
+		fi
 	@echo "$(YELLOW)Files removed!$(RESET)"
 
 fclean: clean

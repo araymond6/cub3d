@@ -24,6 +24,7 @@ void findPlayerPosition(t_map *map)
 
 	map->player_pos_x = 0;
 	map->player_pos_y = 0;
+	found = 0;
 	while (i <= map->map_height && map->only_map[i]) 
 	{
 		j = 0;
