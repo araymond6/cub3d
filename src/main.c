@@ -6,11 +6,17 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 11:45:48 by araymond          #+#    #+#             */
-/*   Updated: 2023/12/15 11:45:49 by araymond         ###   ########.fr       */
+/*   Updated: 2023/12/15 14:22:09 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D.h"
+
+void	check_count(t_map *map, int count)
+{
+	if (count > 1)
+		set_error(map, "Duplicate path", MAP_ERROR);
+}
 
 void	test_textures(t_map *map)
 {

@@ -6,14 +6,13 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 12:12:14 by dwawzyni          #+#    #+#             */
-/*   Updated: 2023/12/15 12:47:07 by araymond         ###   ########.fr       */
+/*   Updated: 2023/12/15 14:26:21 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D.h"
 
 void	verif_number(t_map *map, char **check_if_number);
-
 void	set_rgb_color(t_map *map, int isFloor, int *color[3]);
 
 int	parse_rgb_values(const char *rgbString, t_map *map, int isFloor)
@@ -54,7 +53,7 @@ void	check_rgb_values(t_map *map)
 	count = 0;
 	if (parse_rgb_values(map->f_rgb, map, 1) < 3 || parse_rgb_values(map->c_rgb,
 			map, 0) < 3)
-		set_error(map, "error in rgb value", MAP_ERROR);
+		set_error(map, "Error in RGB value", MAP_ERROR);
 	if (map->c_red > 255 || map->c_green > 255 || map->c_blue > 255
 		|| map->c_red < 0 || map->c_green < 0 || map->c_blue < 0)
 		set_error(map, "Ceiling value outside of range (0-255)", MAP_ERROR);
@@ -68,7 +67,7 @@ void	check_rgb_values(t_map *map)
 		i++;
 	}
 	if (count > 2)
-		set_error(map, "test error", MAP_ERROR);
+		set_error(map, "Error in RGB value", MAP_ERROR);
 }
 
 void	verif_number(t_map *map, char **check_if_number)

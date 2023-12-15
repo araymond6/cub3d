@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 12:14:59 by dwawzyni          #+#    #+#             */
-/*   Updated: 2023/12/15 12:46:45 by araymond         ###   ########.fr       */
+/*   Updated: 2023/12/15 14:30:58 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	wrong_character_in_map(t_map *map)
 				map->only_map[i][j] != 'E' && map->only_map[i][j] != 'S'
 					&& map->only_map[i][j] != 'N'
 					&& map->only_map[i][j] != '\n')
-				set_error(map, "Invalid character in the map", MAP_ERROR);
+				set_error(map, "Invalid map", MAP_ERROR);
 			j++;
 		}
 		i++;

@@ -1,7 +1,7 @@
-SO textures/Birch.png
-NO textures/Jungle.png
-WE textures/Oak.png
-EA textures/Spruce.png
+NO textures/widejoy.png
+SO textures/widejoy.png
+WE textures/widejoy.png
+EA textures/widejoy.png
 
 F 0,255,0
 C 0,0,255

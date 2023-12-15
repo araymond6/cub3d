@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 11:55:46 by dwawzyni          #+#    #+#             */
-/*   Updated: 2023/12/15 12:48:40 by araymond         ###   ########.fr       */
+/*   Updated: 2023/12/15 14:23:06 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,8 @@ void	get_texture_path(t_map *s_map)
 				|| ft_strcmp(token, "WE") == 0 || ft_strcmp(token, "EA") == 0)
 				set_texture_path(get_texture_path_by_token(s_map, token),
 					ft_strtok(NULL, " "), s_map);
-			else if (ft_strcmp(token, "F") == 0)
-				s_map->f_rgb = ft_strtok(NULL, " ");
-			else if (ft_strcmp(token, "C") == 0)
-				s_map->c_rgb = ft_strtok(NULL, " ");
+			else if (ft_strcmp(token, "F") == 0 || ft_strcmp(token, "C") == 0)
+				get_color_path_by_token(s_map, token);
 			else if (check_all_params_exist(s_map)
 				&& s_map->start_map_index == 0)
 				s_map->start_map_index = i;
@@ -71,14 +69,28 @@ void	get_texture_path(t_map *s_map)
 
 char	**get_texture_path_by_token(t_map *s_map, char *token)
 {
+	static int	count[4] = {0, 0, 0, 0};
+
 	if (ft_strcmp(token, "NO") == 0)
-		return (&s_map->no_path);
+	{
+		count[0]++;
+		return (check_count(s_map, count[0]), &s_map->no_path);
+	}
 	if (ft_strcmp(token, "SO") == 0)
-		return (&s_map->so_path);
+	{
+		count[1]++;
+		return (check_count(s_map, count[1]), &s_map->so_path);
+	}
 	if (ft_strcmp(token, "WE") == 0)
-		return (&s_map->we_path);
+	{
+		count[2]++;
+		return (check_count(s_map, count[2]), &s_map->we_path);
+	}
 	if (ft_strcmp(token, "EA") == 0)
-		return (&s_map->ea_path);
+	{
+		count[3]++;
+		return (check_count(s_map, count[3]), &s_map->ea_path);
+	}
 	return (NULL);
 }
 

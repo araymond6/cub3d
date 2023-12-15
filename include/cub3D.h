@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 12:54:11 by araymond          #+#    #+#             */
-/*   Updated: 2023/12/15 12:55:09 by araymond         ###   ########.fr       */
+/*   Updated: 2023/12/15 14:16:47 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,8 @@ int		check_extension(char *path, char *extension);
 void	check_params(t_map *map);
 void	add_zero_map(t_map *map);
 void	flood_fill(t_map *map, int x, int y);
+void	check_count(t_map *map, int count);
+void	get_color_path_by_token(t_map *s_map, char *token);
 
 // all utils
 void	init_cub(t_cub *cub);
@@ -165,7 +167,5 @@ char	*ft_strtok(char *str, const char *delimiters);
 void	set_error(void *param, char *error_message, t_error error_type);
 int		count_file_size(int fd);
 int		count_map_size(t_map *map, int fd);
-
-void	print_map(char **map);
 
 #endif
