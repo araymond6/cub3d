@@ -126,6 +126,7 @@ void	read_map(t_map *map);
 void	findPlayerPosition(t_map *map);
 void	findMapDimensions(t_map *map);
 void	set_texture_path(char **dest, char *token, t_map *s_map);
+void wrong_character_in_map(t_map *map);
 void	set_paths(t_map *s_map, char *token, int i);
 
 // all utils

@@ -48,3 +48,23 @@ void findPlayerPosition(t_map *map)
 	if (found != 1)
 		set_error(map, "No player position found", MAP_ERROR);
 }
+
+void wrong_character_in_map(t_map *map)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while(map->only_map[i])
+	{
+		j = 0;
+		while(map->only_map[i][j])
+		{
+			if(map->only_map[i][j] != '1' && map->only_map[i][j] != '0' && map->only_map[i][j] != ' ' && map->only_map[i][j] != 'W' &&
+				map->only_map[i][j] != 'E' && map->only_map[i][j] != 'S' && map->only_map[i][j] != 'N' && map->only_map[i][j] != '\n')
+					set_error(map, "Invalid character in the map", MAP_ERROR);
+			j++;
+		}
+		i++;
+	}
+}
