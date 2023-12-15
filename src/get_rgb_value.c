@@ -1,46 +1,23 @@
 #include "../include/cub3D.h"
 
+void verif_number(t_map *map,char **check_if_number);
+void set_rgb_color(t_map *map,int isFloor,int *color[3]);
 int	parse_rgb_values(const char *rgbString, t_map *map, int isFloor)
 {
 	char	*token;
 	char	*copy;
 	int		count;
-	char **check_if_number;
-	int j = 0;
 	int *color[3]; // red/green/blue
 
-	copy = ft_strdup(rgbString);
-	check_if_number = ft_split(rgbString,',');
 	count = 0;
-	while(check_if_number[count] != NULL)
-	{
-		j = 0;
-		while(check_if_number[count][j])
-		{
-			if(!(ft_isdigit(check_if_number[count][j])))
-				set_error(map,"one character is not a digit",MAP_ERROR);
-			j++;
-		}
-		count++;
-	}
+	copy = ft_strdup(rgbString);
 	if (!copy)
 		set_error(map, "Memory allocation error", MAP_ERROR);
-	count = 0;
+	verif_number(map,ft_split(rgbString,','));
 	token = ft_strtok(copy, ",");
 	while (token != NULL && count < 3)
 	{
-		if (isFloor)
-		{
-			color[0] = &map->f_red;
-			color[1] = &map->f_green;
-			color[2] = &map->f_blue;
-		}
-		else
-		{
-			color[0] = &map->c_red;
-			color[1] = &map->c_green;
-			color[2] = &map->c_blue;
-		}
+		set_rgb_color(map,isFloor,color);
 		if (count == 0)
 			*color[0] = ft_atoi(token);
 		else if (count == 1)
@@ -73,4 +50,43 @@ void check_rgb_values(t_map *map)
 	if(count > 2)
 		set_error(map,"test error",MAP_ERROR);
 
+}
+
+void verif_number(t_map *map,char **check_if_number)
+{
+	int count;
+	int j;
+
+	j = 0;
+	count = 0;
+	while(check_if_number[count] != NULL)
+	{
+		j = 0;
+		while(check_if_number[count][j])
+		{
+			if(!(ft_isdigit(check_if_number[count][j])))
+			{
+				free_char_array(check_if_number);
+				set_error(map,"one character is not a digit",MAP_ERROR);
+			}
+			j++;
+		}
+		count++;
+	}
+}
+
+void set_rgb_color(t_map *map,int isFloor,int *color[3])
+{
+	if (isFloor)
+		{
+			color[0] = &map->f_red;
+			color[1] = &map->f_green;
+			color[2] = &map->f_blue;
+		}
+		else
+		{
+			color[0] = &map->c_red;
+			color[1] = &map->c_green;
+			color[2] = &map->c_blue;
+		}
 }

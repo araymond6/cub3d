@@ -1,5 +1,6 @@
 #include "../include/cub3D.h"
 
+void set_player_position(t_map *map, int i, int j, char currentcell);
 void findMapDimensions(t_map *map)
 {
 	int i = 0;
@@ -17,14 +18,13 @@ void findMapDimensions(t_map *map)
 
 void findPlayerPosition(t_map *map)
 {
-	int i = 0;
-	int j = 0;
-	char currentCell = map->only_map[i][j];
+	int i;
+	int j;
+	char currentCell;
 	int found;
 
-	map->player_pos_x = 0;
-	map->player_pos_y = 0;
-	while (i <= map->map_height && map->only_map[i]) 
+	i = -1;
+	while (i <= map->map_height && map->only_map[++i]) 
 	{
 		j = 0;
 		while (j < map->map_width && map->only_map[i][j]) 
@@ -35,15 +35,11 @@ void findPlayerPosition(t_map *map)
 			{
 				if (found == 1)
 					set_error(map, "Multiple player positions found", MAP_ERROR);
-				map->playerdir = currentCell;
-				map->only_map[i][j] = '0';
-				map->player_pos_x = i;
-				map->player_pos_y = j;
+				set_player_position(map,i,j,currentCell);
 				found = 1;
 			}
 			++j;
 		}
-		++i;
 	}
 	if (found != 1)
 		set_error(map, "No player position found", MAP_ERROR);
@@ -67,4 +63,12 @@ void wrong_character_in_map(t_map *map)
 		}
 		i++;
 	}
+}
+
+void set_player_position(t_map *map, int i, int j, char currentcell)
+{
+	map->playerdir = currentcell;
+	map->only_map[i][j] = '0';
+	map->player_pos_x = i;
+	map->player_pos_y = j;
 }
