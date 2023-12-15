@@ -14,15 +14,15 @@
 # include <ctype.h>
 # include <string.h>
 
-#define SCREENWIDTH 1024
-#define SCREENHEIGHT 768
-#define PLAYERBOUND 0.2
+# define SCREENWIDTH 1024
+# define SCREENHEIGHT 768
+# define PLAYERBOUNDARY 0.2
 
 // for defining what to free in case of error
 typedef enum e_error
 {
-	MAP_ERROR, // frees map only
-	MLX_ERROR // frees cub + map and textures if needed
+	MAP_ERROR,
+	MLX_ERROR
 }	t_error;
 
 // all variables used throughout raycasting, movement, rotation and direction
@@ -32,7 +32,7 @@ typedef struct s_var
 	double		playerdir[2];
 	double		camplane[2];
 	double		time[2];
-	double 		camera;
+	double		camera;
 	double		raydir[2];
 	double		map[2];
 	double		sidedist[2];
@@ -42,7 +42,7 @@ typedef struct s_var
 	double		hit;
 	int			side;
 	int			lineheight;
-	int 		drawpoints[2];
+	int			drawpoints[2];
 	double		movespeed;
 	double		rotspeed;
 	double		olddir[2];
@@ -75,10 +75,10 @@ typedef struct s_map
 	char	playerdir;
 
 	char	*map_path;
-	char	*NO_path;
-	char	*SO_path;
-	char	*WE_path;
-	char	*EA_path;
+	char	*no_path;
+	char	*so_path;
+	char	*we_path;
+	char	*ea_path;
 
 	char	*f_rgb;
 	char	*c_rgb;
@@ -86,13 +86,12 @@ typedef struct s_map
 	int		f_red;
 	int		f_green;
 	int		f_blue;
-
 	int		c_red;
 	int		c_green;
 	int		c_blue;
 
 	int		start_map_index;
-} t_map;
+}	t_map;
 
 typedef struct s_cub
 {
@@ -105,7 +104,6 @@ typedef struct s_cub
 	struct s_map		map;
 }	t_cub;
 
-
 // raycast and mlx functions
 void	keys_hook(t_cub *cub);
 void	close_hook(void *param);
@@ -115,19 +113,25 @@ void	dda(t_cub *cub);
 void	set_draw_range(t_cub *cub);
 void	main_loop(void *param);
 void	init_texture(t_cub *cub);
+void	set_direction(t_cub *cub);
 
 //parsing functions
 void	check_map_args(t_map *map);
 void	get_texture_path(t_map *s_map);
 char	*trim_texture_path(t_map *s_map, char *texture_path);
 int		parse_rgb_values(const char *rgbString, t_map *map, int isFloor);
-void check_rgb_values(t_map *map);
+void	check_rgb_values(t_map *map);
 void	read_map(t_map *map);
 void	findPlayerPosition(t_map *map);
 void	findMapDimensions(t_map *map);
 void	set_texture_path(char **dest, char *token, t_map *s_map);
-void wrong_character_in_map(t_map *map);
-void	set_paths(t_map *s_map, char *token, int i);
+void	wrong_character_in_map(t_map *map);
+void	add_zero_map(t_map *map);
+int		check_path(char *path);
+int		check_extension(char *path, char *extension);
+void	check_params(t_map *map);
+void	add_zero_map(t_map *map);
+void	flood_fill(t_map *map, int x, int y);
 
 // all utils
 void	init_cub(t_cub *cub);
@@ -140,21 +144,10 @@ void	exit_program(t_cub *cub);
 int		get_color(int r, int g, int b, int a);
 int		ft_strcmp(const char *str1, const char *str2);
 char	*ft_strtok(char *str, const char *delimiters);
-void	add_zero_map(t_map *map);
-void	set_direction(t_cub *cub);
 void	set_error(void *param, char *error_message, t_error error_type);
-int		check_path(char *path);
-int		check_extension(char *path, char *extension);
-void	check_params(t_map *map); // used to check if all params are present
 int		count_file_size(int fd);
 int		count_map_size(t_map *map, int fd);
 
-void	add_zero_map(t_map *map);
-void	flood_fill(t_map *map, int x, int y);
-void	print_map(char **map);
-void	set_paths(t_map *s_map, char *token, int i);
-void	add_zero_map(t_map *map);
-void	flood_fill(t_map *map, int x, int y);
 void	print_map(char **map);
 
 #endif

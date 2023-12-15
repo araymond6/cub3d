@@ -58,10 +58,10 @@ void add_zero_map(t_map *map)
 
 void	check_params(t_map *map)
 {
-	if (map->NO_path == NULL || \
-		map->SO_path == NULL || \
-		map->WE_path == NULL || \
-		map->EA_path == NULL || \
+	if (map->no_path == NULL || \
+		map->so_path == NULL || \
+		map->we_path == NULL || \
+		map->ea_path == NULL || \
 		map->c_rgb == NULL || \
 		map->f_rgb == NULL)
 	{

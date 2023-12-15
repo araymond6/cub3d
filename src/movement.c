@@ -57,9 +57,9 @@ void	move_player(t_cub *cub, double movespeed)
 {
 	double	boundary;
 
-	boundary = PLAYERBOUND;
+	boundary = PLAYERBOUNDARY;
 	if (movespeed < 0)
-		boundary = -PLAYERBOUND;
+		boundary = -PLAYERBOUNDARY;
 	if (cub->map.map[(int)(cub->v.pos[0] + cub->v.playerdir[0] * \
 		(movespeed + boundary))][(int)cub->v.pos[1]] == '0')
 		cub->v.pos[0] += cub->v.playerdir[0] * movespeed;
@@ -76,9 +76,9 @@ void	strafe_player(t_cub *cub, double movespeed)
 {
 	double	boundary;
 
-	boundary = PLAYERBOUND;
+	boundary = PLAYERBOUNDARY;
 	if (movespeed < 0)
-		boundary = -PLAYERBOUND;
+		boundary = -PLAYERBOUNDARY;
 	if (cub->map.map[(int)(cub->v.pos[0] + cub->v.playerdir[1] * \
 		(movespeed + boundary))][(int)cub->v.pos[1]] != '1')
 		cub->v.pos[0] += cub->v.playerdir[1] * movespeed;

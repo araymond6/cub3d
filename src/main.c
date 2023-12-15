@@ -2,17 +2,17 @@
 
 void	test_textures(t_map *map)
 {
-	if (check_extension(map->NO_path, ".png") == -1 || \
-		check_extension(map->SO_path, ".png") == -1 || \
-		check_extension(map->WE_path, ".png") == -1 || \
-		check_extension(map->EA_path, ".png") == -1)
+	if (check_extension(map->no_path, ".png") == -1 || \
+		check_extension(map->so_path, ".png") == -1 || \
+		check_extension(map->we_path, ".png") == -1 || \
+		check_extension(map->ea_path, ".png") == -1)
 	{
 		set_error(map, "Bad texture extension", MAP_ERROR);
 	}
-	if (check_path(map->NO_path) == -1 || \
-		check_path(map->SO_path) == -1 || \
-		check_path(map->WE_path) == -1 || \
-		check_path(map->EA_path) == -1)
+	if (check_path(map->no_path) == -1 || \
+		check_path(map->so_path) == -1 || \
+		check_path(map->we_path) == -1 || \
+		check_path(map->ea_path) == -1)
 	{
 		set_error(map, "Failed to open texture path", MAP_ERROR);
 	}

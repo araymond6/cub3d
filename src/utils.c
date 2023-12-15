@@ -41,14 +41,14 @@ void	free_all(t_cub *cub)
 		mlx_close_window(cub->mlx);
 		mlx_terminate(cub->mlx);
 	}
-	if (cub->map.NO_path)
-		free(cub->map.NO_path);
-	if (cub->map.SO_path)
-		free(cub->map.SO_path);
-	if (cub->map.WE_path)
-		free(cub->map.WE_path);
-	if (cub->map.EA_path)
-		free(cub->map.EA_path);
+	if (cub->map.no_path)
+		free(cub->map.no_path);
+	if (cub->map.so_path)
+		free(cub->map.so_path);
+	if (cub->map.we_path)
+		free(cub->map.we_path);
+	if (cub->map.ea_path)
+		free(cub->map.ea_path);
 }
 
 int	get_color(int r, int g, int b, int a)
