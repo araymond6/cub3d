@@ -6,13 +6,13 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 12:12:14 by dwawzyni          #+#    #+#             */
-/*   Updated: 2023/12/15 14:26:21 by araymond         ###   ########.fr       */
+/*   Updated: 2023/12/19 11:05:52 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D.h"
 
-void	verif_number(t_map *map, char **check_if_number);
+void	verif_number(t_map *map, const char *rgbString);
 void	set_rgb_color(t_map *map, int isFloor, int *color[3]);
 
 int	parse_rgb_values(const char *rgbString, t_map *map, int isFloor)
@@ -26,7 +26,7 @@ int	parse_rgb_values(const char *rgbString, t_map *map, int isFloor)
 	copy = ft_strdup(rgbString);
 	if (!copy)
 		set_error(map, "Memory allocation error", MAP_ERROR);
-	verif_number(map, ft_split(rgbString, ','));
+	verif_number(map, rgbString);
 	token = ft_strtok(copy, ",");
 	while (token != NULL && count < 3)
 	{
@@ -70,11 +70,15 @@ void	check_rgb_values(t_map *map)
 		set_error(map, "Error in RGB value", MAP_ERROR);
 }
 
-void	verif_number(t_map *map, char **check_if_number)
+void	verif_number(t_map *map, const char *rgbString)
 {
-	int	count;
-	int	j;
+	int		count;
+	int		j;
+	char	**check_if_number;
 
+	check_if_number = ft_split(rgbString, ',');
+	if (!check_if_number)
+		set_error(map, "Memory allocation error", MAP_ERROR);
 	j = 0;
 	count = 0;
 	while (check_if_number[count] != NULL)
@@ -91,6 +95,7 @@ void	verif_number(t_map *map, char **check_if_number)
 		}
 		count++;
 	}
+	free_char_array(check_if_number);
 }
 
 void	set_rgb_color(t_map *map, int isFloor, int *color[3])

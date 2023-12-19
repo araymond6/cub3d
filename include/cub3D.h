@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 12:54:11 by araymond          #+#    #+#             */
-/*   Updated: 2023/12/15 14:16:47 by araymond         ###   ########.fr       */
+/*   Updated: 2023/12/19 10:30:23 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void	malloc_error_map(t_map *map, int fd);
 char	*trim_texture_path(t_map *s_map, char *texture_path);
 int		parse_rgb_values(const char *rgbString, t_map *map, int isFloor);
 void	check_rgb_values(t_map *map);
-void	read_map(t_map *map);
+void	read_map(t_map *map, int fd, int i, int j);
 void	find_player_position(t_map *map);
 void	find_map_dimensions(t_map *map);
 void	flood_fill_part(t_map *map, char **duped_map, int i, int j);
@@ -167,5 +167,6 @@ char	*ft_strtok(char *str, const char *delimiters);
 void	set_error(void *param, char *error_message, t_error error_type);
 int		count_file_size(int fd);
 int		count_map_size(t_map *map, int fd);
+void	close_and_open(t_map *map, int *fd);
 
 #endif

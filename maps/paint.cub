@@ -1,11 +1,10 @@
-NO textures/plage.png
-SO textures/christmastree.png
-WE textures/montagne.png
-EA textures/feu.png
+NO ./textures/plage.png
+SO ./textures/christmastree.png
+WE ./textures/montagne.png
+EA ./textures/feu.png
 
 C 200,200,200
 F 200,200,200
-
 11111111111111111111111111111111
 10000000000000000000000000000001
 10000000000000000000000000000001

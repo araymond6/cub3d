@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 11:45:48 by araymond          #+#    #+#             */
-/*   Updated: 2023/12/15 14:22:09 by araymond         ###   ########.fr       */
+/*   Updated: 2023/12/19 10:30:08 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	parsing(t_map *map)
 	parse_rgb_values(map->f_rgb, map, 1);
 	parse_rgb_values(map->c_rgb, map, 0);
 	check_rgb_values(map);
-	read_map(map);
+	read_map(map, 0, 0, 0);
 	wrong_character_in_map(map);
 	add_zero_map(map);
 	find_map_dimensions(map);
@@ -81,7 +81,8 @@ int	main(int argc, char **argv)
 	if (check_path(cub.map.map_path) == -1 || \
 		check_extension(cub.map.map_path, ".cub") == -1)
 	{
-		printf("Error\nBad map\n");
+		printf("Error\n");
+		perror("Bad map path");
 		exit(EXIT_FAILURE);
 	}
 	parsing(&cub.map);

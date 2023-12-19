@@ -6,31 +6,29 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 12:19:47 by dwawzyni          #+#    #+#             */
-/*   Updated: 2023/12/15 12:53:48 by araymond         ###   ########.fr       */
+/*   Updated: 2023/12/19 10:29:59 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3D.h"
 
-void	read_map(t_map *map)
+void	read_map(t_map *map, int fd, int i, int j)
 {
-	int		fd;
-	int		i;
-	int		j;
 	char	*line;
 
-	i = 0;
-	j = 0;
-	map->only_map = NULL;
-	fd = open(map->map_path, O_RDONLY);
+	close_and_open(map, &fd);
+	if (count_map_size(map, fd) > 205)
+		set_error(map, "Map is too big", MAP_ERROR);
+	close_and_open(map, &fd);
 	map->only_map = ft_calloc(sizeof(char *), (count_map_size(map, fd) + 1));
 	if (!map->only_map)
 		set_error(map, "Memory allocation error", MAP_ERROR);
-	close(fd);
-	fd = open(map->map_path, O_RDONLY);
+	close_and_open(map, &fd);
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
+		if (ft_strlen(line) > 205)
+			set_error(map, "Map is too long", MAP_ERROR);
 		if (j >= map->start_map_index)
 			map->only_map[i++] = ft_strdup(line);
 		j++;

@@ -6,7 +6,7 @@
 /*   By: araymond <araymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 11:45:25 by araymond          #+#    #+#             */
-/*   Updated: 2023/12/15 11:45:26 by araymond         ###   ########.fr       */
+/*   Updated: 2023/12/19 10:03:17 by araymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,12 @@ void	init_texture(t_cub *cub)
 	{
 		set_error(cub, "Memory allocation error", MLX_ERROR);
 	}
+}
+
+void	close_and_open(t_map *map, int *fd)
+{
+	close(*fd);
+	*fd = open(map->map_path, O_RDONLY);
+	if (*fd == -1)
+		set_error(map, "Failed to open map", MAP_ERROR);
 }
