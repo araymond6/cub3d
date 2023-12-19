@@ -111,7 +111,4 @@ fclean: clean
 	make fclean -C $(LIB_DIR)
 	@echo "$(YELLOW)Files removed!$(RESET)"
 
-val: all
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes ./$(NAME) maps/pig.cub
-
 .PHONY: re fclean clean all run mlx dep val lib
